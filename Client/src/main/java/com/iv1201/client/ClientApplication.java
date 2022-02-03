@@ -1,4 +1,4 @@
-package com.iv1201.Client;
+package com.iv1201.client;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
