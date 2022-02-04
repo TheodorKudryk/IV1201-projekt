@@ -1,4 +1,3 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,11 +5,11 @@
         <title>Login</title>
     </head>
     <body>
-        <h1>Kul att du Ã¤r intresserad av jobb pÃ¥ grÃ¶nan!</h1>
-        <form method="GET" action="/L3ST/Users">
-            AnvÃ¤ndarnamn <input type="text" name="username"><br>
-            LÃ¶senord <input type="text" name="password"><br>
-            <input type="hidden" name="action" value="login">
+        <h1>Kul att du är intresserad av jobb på grönan!</h1>
+        <form method="POST" action="/loginAttempt">
+            Användarnamn <input type="text" name="username" id="username"><br>
+            Lösenord <input type="text" name="password" id="password"><br>
+            <input type="hidden">
             <input type="submit" value="Logga in">
         </form>
     </body>
