@@ -17,20 +17,12 @@ import org.springframework.web.bind.annotation.SessionAttributes; // same as set
 public class LoginController {
 
     @RequestMapping(value = "/login")
-    public String start(){ //method name is not mapped
-        //return ("<h1>Welcome</h1>");
-        System.out.println("okidoki! start()");
-        return "login"; // return filename without ".jsp" for jsp-pages in WEB-INF/jsp
-    }
-   
-    @RequestMapping("/hello")
-    public String hello() {
-        return "startpage";
+    public String start(){
+        return "login";
     }
     
     @RequestMapping(value = "/loginAttempt", method = RequestMethod.POST)
     public String loginAttempt(@RequestParam("username") String username, @RequestParam("password") String password, ModelMap model) {
-        System.out.println("aha! loginAttempt()");
         if (DBHandler.validateLogin(username, password))
             return "startpage";
         else
