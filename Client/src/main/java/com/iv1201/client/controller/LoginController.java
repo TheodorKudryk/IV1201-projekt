@@ -1,8 +1,8 @@
 package com.iv1201.client.controller;
 
 import com.iv1201.client.integration.DBHandler;
+import com.iv1201.client.model.Person;
 import java.sql.SQLException;
-import com.iv1201.client.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,18 @@ public class LoginController {
         return "login";
     }
     
+    @RequestMapping(value = "/hi")
+    public String hi(){
+        return "hi";
+    }
+    /*
     @RequestMapping(value = "/loginAttempt", method = RequestMethod.POST)
     public String loginAttempt(@RequestParam("username") String username, @RequestParam("password") String password, ModelMap model) {
-        if (DBHandler.validateLogin(username, password))
+        Person person = DBHandler.validateLogin(username, password);
+        if (person != null)
             return "startpage";
         else
             return "login";
     }
-    
+    */
 }
