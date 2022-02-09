@@ -1,4 +1,4 @@
-package com.iv1201.client.controller;
+package com.iv1201.Client.controller;
 
 import com.iv1201.client.integration.DBHandler;
 import java.sql.SQLException;
@@ -14,16 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes; // same as setattribute on a HttpSession-object
 
 @Controller
-public class LoginController {
+public class HomeController {
 
-    @RequestMapping(value = "/login")
-    public String start(){
-        return "login";
-    }
-    
-    @RequestMapping(value = "/startpage")
-    public String loginAttempt() {
-       return "startpage";
-    }
-    
+    @RequestMapping(value = "/home")
+	public String greeting() {
+            return "homeUser";
+        }
 }
