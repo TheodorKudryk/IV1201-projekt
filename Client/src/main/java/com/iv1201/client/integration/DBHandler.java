@@ -75,22 +75,14 @@ public class DBHandler {
     }
     
     public static Person validateLogin(String username, String password) {
-        StringBuilder content = dbAPICallGet("http://localhost:9090/user/" + username);
+        StringBuilder content = dbAPICallGet("http://localhost:8081/user/" + username);
         if (content == null)
             return null;
         JSONObject myJsonObj = new JSONObject(content.toString());
         
-        Person person = new Person(myJsonObj.getInt("id"), myJsonObj.getString("name"),myJsonObj.getString("surname"),myJsonObj.getString("pnr"),myJsonObj.getString("email"),myJsonObj.getString("password"),myJsonObj.getJSONObject("role").getString("role"),myJsonObj.getString("username"));
+        Person person = new Person(myJsonObj.getInt("id"), myJsonObj.getString("name"),myJsonObj.getJSONObject("role").getString("name"));
         return person;
     }
     
-    
-    
-    public static Person loadPerson(String username) {
-        if (username.equals("leo")) {
-            return new Person(1, "h", "", "", "", "", "", "");
-        }
-        return null;
-    }
 
 }

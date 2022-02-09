@@ -20,7 +20,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Person person = DBHandler.validateLogin(name, password);
         
         // Your custom authentication logic here
-        if (person != null && name.equals("admin") && password.equals("pwd")) {
+        if (person != null) {
             Authentication auth = new UsernamePasswordAuthenticationToken(name,
                     password, new ArrayList<>());
 

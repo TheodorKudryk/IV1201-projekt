@@ -6,9 +6,5 @@
     </head>
     <body>
         <h1>Welcome!</h1>
-        <form method="GET" action="/hi">
-            <input type="hidden" name="action" value="login">
-            <input type="submit" value="to hi page">
-        </form>
     </body>
 </html>
