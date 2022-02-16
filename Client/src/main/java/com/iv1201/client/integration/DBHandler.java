@@ -15,6 +15,9 @@ import org.json.JSONObject;
 public class DBHandler {
     
     private static StringBuilder dbAPICallPost(String urlString, String body) {
+        StringBuilder content = new StringBuilder();
+        return content;
+        /*
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -47,6 +50,7 @@ public class DBHandler {
             ex.printStackTrace();
         }
         return null;
+*/
     }
     
     private static StringBuilder dbAPICallGet(String urlString) {
