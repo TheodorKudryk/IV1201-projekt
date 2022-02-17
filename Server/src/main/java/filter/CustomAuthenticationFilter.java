@@ -18,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.iv1201.server.security.BEncryption;
 import java.util.Date;
 import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,8 +43,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String password = request.getParameter("password");
         System.out.println(password);
         System.out.println("föröskt skriva pw un");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        return authenticationManager.authenticate(authenticationToken);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,BEncryption.bCryptPasswordEncoder.encode(password));
+        System.out.println(BEncryption.bCryptPasswordEncoder.encode(password));
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        System.out.println("hej");
+        return authentication;
         
     }
 

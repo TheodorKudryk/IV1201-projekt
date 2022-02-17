@@ -25,16 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @author theok
  */
 @RestController 
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
     
     @Autowired
     private UserServiceImp service;
     
-    @GetMapping("/login/{uname}")
-    public UserDetails login(@PathVariable String uname) {
-        return service.loadUserByUsername(uname);
+    @PostMapping("/login")
+    public String login() {
+        return "welcome";
     }
     
     @GetMapping("/user/{uname}")
