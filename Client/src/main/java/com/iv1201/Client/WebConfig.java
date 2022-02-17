@@ -73,7 +73,7 @@ public class WebConfig implements WebMvcConfigurer,  ApplicationContextAware {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
-        // Templates file shall have the path /web-root/<template name>.html
+        // Templates file shall have the path /WEB-INF/views/<template name>.html
         templateResolver.setPrefix("classpath:/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         // HTML is the default template mode, added here for the sake of
@@ -85,53 +85,9 @@ public class WebConfig implements WebMvcConfigurer,  ApplicationContextAware {
         return templateResolver;
     }
     
-    
-    @Bean
-    public ViewResolver htmlViewResolver() {
-        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine(htmlTemplateResolver()));
-        resolver.setContentType("text/html");
-        resolver.setCharacterEncoding("UTF-8");
-        return resolver;
-    }
-
-    @Bean
-    public ViewResolver plainViewResolver() {
-        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine(plainTemplateResolver()));
-        resolver.setContentType("text/plain");
-        resolver.setCharacterEncoding("UTF-8");
-        return resolver;
-    }
-    
-    private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.addDialect(new LayoutDialect(new GroupingStrategy()));
-        engine.addDialect(new Java8TimeDialect());
-        engine.setTemplateResolver(templateResolver);
-        engine.setTemplateEngineMessageSource(messageSource());
-        return engine;
-    }
-
-    private ITemplateResolver htmlTemplateResolver() {
-        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setApplicationContext(applicationContext);
-        resolver.setPrefix("classpath:/WEB-INF/views/");
-        resolver.setCacheable(false);
-        resolver.setTemplateMode(TemplateMode.HTML);
-        return resolver;
-    }
-
-
-    private ITemplateResolver plainTemplateResolver() {
-        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setApplicationContext(applicationContext);
-        resolver.setPrefix("classpath:/WEB-INF/txt/");
-        resolver.setCacheable(false);
-        resolver.setTemplateMode(TemplateMode.TEXT);
-        return resolver;
-    }
-
+    /**
+     * Sets path for the different translation files needed for the views
+     */
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         String l10nMsgDir = "classpath:/i18n/Messages";
@@ -144,6 +100,9 @@ public class WebConfig implements WebMvcConfigurer,  ApplicationContextAware {
     }
 
     @Bean
+    /**
+     * Sets default language to be used
+     */
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         localeResolver.setDefaultLocale(new Locale("en"));

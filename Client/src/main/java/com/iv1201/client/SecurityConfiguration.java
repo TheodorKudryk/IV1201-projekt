@@ -30,6 +30,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     
     @Override
+    /**
+     * Handling of the authorization of the different views and which role has
+     * access to which view. It also sets the login URL and the logout URL
+     */
     protected void configure(final HttpSecurity http) throws Exception {
         http
             .csrf().disable()
