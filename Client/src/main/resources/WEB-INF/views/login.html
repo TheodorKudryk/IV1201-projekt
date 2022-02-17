@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <title>Login</title>
+        <title th:text="#{txt.login}" ></title>
     </head>
     <body>
-        <h1>Login page</h1>
+        <h1><span th:text="#{txt.login}" /></h1>
         <form method="POST" action="/loginAttempt">
-            Username <input type="text" name="username" id="username"><br>
-            Password <input type="text" name="password" id="password"><br>
+            <span th:text="#{txt.username}" /> <input type="text" name="username" id="username"><br>
+            <span th:text="#{txt.password}" /> <input type="text" name="password" id="password"><br>
             <input type="hidden" name="action" value="login">
             <input type="submit" value="Login">
         </form>
