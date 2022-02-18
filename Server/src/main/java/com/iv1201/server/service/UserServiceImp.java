@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     private final UserRepository repository;
-
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     
     public User loadUser(String username)throws UsernameNotFoundException{
         
@@ -46,9 +46,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-        System.out.println("password check");
-        System.out.println(BEncryption.bCryptPasswordEncoder.encode(user.getPassword()));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), BEncryption.bCryptPasswordEncoder.encode(user.getPassword()), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()), authorities);
         
     }
 
@@ -64,6 +62,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public User saveUser(User user) {
+        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return repository.save(user);
     }
 

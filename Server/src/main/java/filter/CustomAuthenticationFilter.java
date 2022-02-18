@@ -18,9 +18,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.iv1201.server.security.BEncryption;
+import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.iv1201.server.security.BEncryption;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -42,11 +46,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         System.out.println(username);
         String password = request.getParameter("password");
         System.out.println(password);
-        System.out.println("föröskt skriva pw un");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,BEncryption.bCryptPasswordEncoder.encode(password));
-        System.out.println(BEncryption.bCryptPasswordEncoder.encode(password));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        System.out.println("hej");
+        System.out.println("attemptedAuthentication done");
         return authentication;
         
     }
@@ -64,8 +66,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30*60*1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
-        response.setHeader(access_Token, access_Token);
-        response.setHeader(refresh_Token, refresh_Token);
+        //response.setHeader("access_Token", access_Token);
+        //response.setHeader("refresh_Token", refresh_Token);
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("access_Token", access_Token);
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        System.out.println("succesfullAuthentication done");
     }
     
 }

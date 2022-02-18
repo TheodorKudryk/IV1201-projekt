@@ -12,5 +12,5 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @author theok
  */
 public class BEncryption {
-    public static final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    public static final BCryptPasswordEncoder bCryptPasswordEncoderT = new BCryptPasswordEncoder();
 }
