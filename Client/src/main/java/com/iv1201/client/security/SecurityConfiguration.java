@@ -1,5 +1,6 @@
-package com.iv1201.client;
+package com.iv1201.client.security;
 
+import com.iv1201.client.security.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .loginProcessingUrl("/loginAttempt")
                 .defaultSuccessUrl("/startpage", true)
+               
                 .failureUrl("/login")
                 .and()
                 .logout()

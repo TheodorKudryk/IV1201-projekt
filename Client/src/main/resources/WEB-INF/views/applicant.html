@@ -16,7 +16,6 @@ and open the template in the editor.
                     <span th:if="${competence_profile == null}">
                         <h1>
                             <td th:text="#{txt.welcome} "></td>
-                            <td th:text="${user.name} "></td>
                             <td th:text="#{txt.apply}"></td>
                         </h1>
                         <form method="POST" action="/loginAttempt">

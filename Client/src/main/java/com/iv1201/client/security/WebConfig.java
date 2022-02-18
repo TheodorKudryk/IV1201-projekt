@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iv1201.Client;
+package com.iv1201.client.security;
 import java.util.Locale;
 
 import org.springframework.context.ApplicationContext;
