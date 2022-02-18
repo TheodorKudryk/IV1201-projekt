@@ -1,6 +1,7 @@
 package com.iv1201.client.integration;
 
 import com.iv1201.client.model.Person;
+import com.iv1201.client.model.UserDTO;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -84,6 +85,22 @@ public class DBHandler {
         
         Person person = new Person(myJsonObj.getInt("id"), myJsonObj.getString("name"),myJsonObj.getJSONObject("role").getString("name"));
         return person;
+    }
+    
+    public static void updateUser(UserDTO user){
+        String body = "{"
+                + "'username': '" + user.getUsername() + "',"
+                + "'password': '" + user.getPassword() + "',"
+                + "'email': '" + user.getEmail() + "'"
+                + "}";
+        StringBuilder content = dbAPICallPost("http://localhost:8081/updateuser", body);
+        System.out.println("User updated with: " + body);
+    }
+    
+        public static Person loadUser(String username) {
+        StringBuilder content = dbAPICallGet("http://localhost:8081/user/" + username);
+        JSONObject myJsonObj = new JSONObject(content.toString());
+        return new Person(myJsonObj.getInt("id"), myJsonObj.getString("name"),myJsonObj.getJSONObject("role").getString("name"));
     }
     
 

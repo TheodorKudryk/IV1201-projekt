@@ -92,7 +92,7 @@ public class WebConfig implements WebMvcConfigurer,  ApplicationContextAware {
      */
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("en"));
+        localeResolver.setDefaultLocale(new Locale("sv"));
         return localeResolver;
     }
 
