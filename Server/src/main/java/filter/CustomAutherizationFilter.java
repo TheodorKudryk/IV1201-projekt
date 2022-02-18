@@ -44,16 +44,24 @@ public class CustomAutherizationFilter extends OncePerRequestFilter {
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
-                    String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    stream(roles).forEach(role -> {
-                        authorities.add(new SimpleGrantedAuthority(role));
-                    });
-                    UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(username, null, authorities);
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    System.out.println("AutherizationFilter done");
-                    filterChain.doFilter(request, response);
+                    
+                    if (request.getServletPath().contains("/user/") &&
+                            !request.getServletPath().equals("/user/"+username))  {
+                        
+                        // trying to access wrong user
+                        filterChain.doFilter(request, response);
+                    } else {
+                        String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                        stream(roles).forEach(role -> {
+                            authorities.add(new SimpleGrantedAuthority(role));
+                        });
+                        UsernamePasswordAuthenticationToken authenticationToken =
+                                new UsernamePasswordAuthenticationToken(username, null, authorities);
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                        System.out.println("AutherizationFilter done");
+                        filterChain.doFilter(request, response);
+                    }
                 } catch (Exception ex) {
                     // Error handling
                     response.setHeader("error", ex.getMessage());
