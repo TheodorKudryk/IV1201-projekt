@@ -5,6 +5,7 @@ import com.iv1201.client.model.Person;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,23 +20,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
      */
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
-        String username = authentication.getName();
-        // You can get the password here
-        String password = authentication.getCredentials().toString();
+        try {
 
-        Person person = DBHandler.validateLogin(username, password);
-        System.out.println(person.getName() + person.getRole());
-        // Checks if there vas a resonse from the server and creates and auth
-        // with the values
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+person.getRole()));
-        if (person != null) {
+            String username = authentication.getName();
+            // You can get the password here
+            String password = authentication.getCredentials().toString();
+
+            Person person = DBHandler.validateLogin(username, password);
+            System.out.println(person.getName() + person.getRole());
+            // Checks if there vas a resonse from the server and creates and auth
+            // with the values
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+person.getRole()));
             Authentication auth = new UsernamePasswordAuthenticationToken(username,
-                    password, authorities);
-
-            return auth;
+                password, authorities);
         }
-
+        catch(NullPointerException ex){
+            throw new BadCredentialsException("invalid login details");  
+        }
         return null;
     }
 
