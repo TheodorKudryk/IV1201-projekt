@@ -5,6 +5,7 @@ import com.iv1201.client.model.UserDTO;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONObject; 
@@ -15,7 +16,7 @@ import org.json.JSONObject;
  */
 public class DBHandler {
     
-    private static StringBuilder dbAPICallPostAuth(String urlString, String body) {
+    private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
         
         try {
             URL url = new URL(urlString);
@@ -44,6 +45,8 @@ public class DBHandler {
             connection.disconnect();
 
             return content;
+        } catch(ConnectException ex){
+            throw ex;
         } catch (Exception ex) {
             System.out.println("Error in dbAPICallPostAuth()");
             ex.printStackTrace();
@@ -115,7 +118,7 @@ public class DBHandler {
         return null;
     }
     
-    public static Person validateLogin(String username, String password) {
+    public static Person validateLogin(String username, String password) throws ConnectException {
         String body = "username="+username+"&password="+password;
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/login", body);
         if (content == null)

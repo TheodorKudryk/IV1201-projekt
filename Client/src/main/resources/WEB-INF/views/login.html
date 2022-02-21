@@ -6,6 +6,7 @@
     </head>
     <body>
         <h1><span th:text="#{txt.login}" /></h1>
+        <p th:if="${loginError}" class="error" th:text="#{txt.loginError}"></p>
         <form method="POST" action="/loginAttempt">
             <span th:text="#{txt.username}" /> <input type="text" name="username" id="username"><br>
             <span th:text="#{txt.password}" /> <input type="text" name="password" id="password"><br>
