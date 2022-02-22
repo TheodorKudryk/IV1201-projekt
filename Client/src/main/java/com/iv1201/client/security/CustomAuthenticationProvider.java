@@ -34,11 +34,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+person.getRole()));
             Authentication auth = new UsernamePasswordAuthenticationToken(username,
                 password, authorities);
+            return auth;
         }
         catch(NullPointerException ex){
             throw new BadCredentialsException("invalid login details");  
         }
-        return null;
     }
 
     @Override

@@ -7,7 +7,6 @@ package com.iv1201.server.service;
 
 import com.iv1201.server.entity.User;
 import com.iv1201.server.repository.UserRepository;
-import com.iv1201.server.security.BEncryption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,7 +28,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     private final UserRepository repository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     
     public User loadUser(String username)throws UsernameNotFoundException{
         
@@ -46,7 +43,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
         
     }
 
