@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title th:text="#{txt.welcome}"></title>
+        <div th:replace="fragments :: myheader('Welcome')"></div>
     </head>
     <body>
         <h1><span th:text="#{txt.welcome}" /></h1>

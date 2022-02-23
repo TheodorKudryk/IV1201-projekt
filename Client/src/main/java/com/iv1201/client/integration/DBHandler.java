@@ -124,7 +124,6 @@ public class DBHandler {
         if (content == null)
             return null;
          
-        System.out.println("gul");
         System.out.println(content.toString());
         JSONObject myJsonObj = new JSONObject(content.toString());
         StringBuilder contentUser = dbAPICallGet("http://localhost:8081/user/"+username, myJsonObj.getString("access_Token"));
