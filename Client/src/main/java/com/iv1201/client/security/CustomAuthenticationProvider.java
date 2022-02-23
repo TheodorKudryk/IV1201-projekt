@@ -2,8 +2,11 @@ package com.iv1201.client.security;
 
 import com.iv1201.client.integration.DBHandler;
 import com.iv1201.client.model.Person;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
             Person person = DBHandler.validateLogin(username, password);
             System.out.println(person.getName() + person.getRole());
-            // Checks if there vas a resonse from the server and creates and auth
+            // Checks if there vas a resonse from the server and creates and auth<<
             // with the values
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_"+person.getRole()));
@@ -37,7 +40,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             return auth;
         }
         catch(NullPointerException ex){
+            System.out.println("login error");
             throw new BadCredentialsException("invalid login details");  
+        } catch (ConnectException ex) {
+            System.out.println("connection error");
         }
     }
 

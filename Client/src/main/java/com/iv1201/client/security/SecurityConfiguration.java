@@ -1,6 +1,6 @@
 package com.iv1201.client.security;
 
-import com.iv1201.client.security.CustomAuthenticationProvider;
+import com.iv1201.Client.security.CustomAuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 
 /**
@@ -30,6 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(new CustomAuthenticationProvider());
     }
     
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+    
     @Override
     /**
      * Handling of the authorization of the different views and which role has
@@ -39,21 +45,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                //.antMatchers("/startpage").hasAnyRole("USER","ADMIN")
-                .antMatchers("/login*","/startpage","/userupdate").permitAll()
+                .antMatchers("/startpage").hasAnyRole("recruiter","applicant")
+                .antMatchers("/login*","/userupdate").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/loginAttempt")
                 .defaultSuccessUrl("/startpage", true)
-               
-                .failureUrl("/login")
+                .failureHandler(authenticationFailureHandler())
+                //.failureUrl("/login?error")
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID");
     }
+    
 
 }
