@@ -31,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
             Person person = DBHandler.validateLogin(username, password);
             System.out.println(person.getName() + person.getRole());
-            // Checks if there vas a resonse from the server and creates and auth
+            // Checks if there vas a resonse from the server and creates and auth<<
             // with the values
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_"+person.getRole()));

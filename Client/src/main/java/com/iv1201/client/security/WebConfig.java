@@ -36,7 +36,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
@@ -79,9 +78,8 @@ public class WebConfig implements WebMvcConfigurer,  ApplicationContextAware {
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         String l10nMsgDir = "classpath:/i18n/Messages";
-        String l10nValidationMsgDir = "classpath:/i18n/ValidationMessages";
         ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
-        resource.addBasenames(l10nMsgDir, l10nValidationMsgDir);
+        resource.addBasenames(l10nMsgDir);
         resource.setDefaultEncoding("UTF-8");
         resource.setFallbackToSystemLocale(false);
         return resource;

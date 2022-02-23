@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping; // for mapping re
 public class LoginController {
 
     @RequestMapping(value = "/login")
-    public String login(Model model, String error){
-        if(error != null){
+    public String login(Model model, String login, String db, String error){
+        if(login != null){
             model.addAttribute("loginError", true);
+        }
+        else if(db != null){
+            model.addAttribute("dbError", true);
+        }
+        else if(error != null){
+            model.addAttribute("unknownError",true);
         }
         return "login";
     }
