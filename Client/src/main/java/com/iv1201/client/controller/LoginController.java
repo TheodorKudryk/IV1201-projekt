@@ -2,6 +2,9 @@ package com.iv1201.client.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping; // for mapping request path to invoking method
@@ -19,6 +22,9 @@ public class LoginController {
      */
     @RequestMapping(value = "/login")
     public String login(Model model, String login, String db, String error){
+        if (isAuthenticated()) {
+            return "redirect:startpage";
+        }
         if(login != null){
             model.addAttribute("loginError", true);
         }
@@ -38,4 +44,13 @@ public class LoginController {
         }
         return "applicant";
     }
+    
+    private boolean isAuthenticated() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || AnonymousAuthenticationToken.class.
+      isAssignableFrom(authentication.getClass())) {
+        return false;
+    }
+    return authentication.isAuthenticated();
+}
 }
