@@ -8,9 +8,7 @@ package com.iv1201.client.controller;
 import com.iv1201.client.integration.DBHandler;
 import com.iv1201.client.model.UserDTO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -20,11 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UpdateInformationController {
     
     @RequestMapping(value = "/updateinformation")
-    public String updateinformation(UserDTO user){
-        System.out.println(user.getEmail() + ", " + user.getPassword() + ", " + user.getUsername());
+    public String updateInformation(UserDTO user){
         DBHandler.updateUser(user);
         return "applicant";
     }
+    
     @RequestMapping(value = "/userupdate")
     public String userUpdate(){
         return "userupdate";
