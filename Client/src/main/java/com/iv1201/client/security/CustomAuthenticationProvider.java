@@ -45,6 +45,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         } catch (ConnectException ex) {
             System.out.println("connection error");
         }
+        return null;
     }
 
     @Override
