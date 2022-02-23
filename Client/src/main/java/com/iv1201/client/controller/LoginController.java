@@ -9,6 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping; // for mapping re
 @Controller
 public class LoginController {
 
+    /**
+     * Controller for login page
+     * @param model used for setting attributes in the view
+     * @param login used for login errors
+     * @param db used for when database is unreachable
+     * @param error catch all error in case of unknown error
+     * @return the view used
+     */
     @RequestMapping(value = "/login")
     public String login(Model model, String login, String db, String error){
         if(login != null){
