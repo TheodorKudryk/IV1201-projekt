@@ -19,7 +19,7 @@
                             <input type="submit" value="apply">
                         </form>
                     </span>
-                    <span th:if="${competence_profile == null}">
+                    <span th:unless="${competence_profile == null}">
                         <h1>
                             <td th:text="#{txt.applied}"></td>
                         </h1>

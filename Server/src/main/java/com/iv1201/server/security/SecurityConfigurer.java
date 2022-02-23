@@ -52,6 +52,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         //http.authorizeRequests().antMatchers("/login").permitAll();
         //http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority("ROLE_USER");
         //http.authorizeRequests().antMatchers(GET, "/recruiterPage").hasAnyAuthority("ROLE_RECRUITER");
+        http.authorizeRequests().antMatchers("/competences").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAutherizationFilter(), UsernamePasswordAuthenticationFilter.class);

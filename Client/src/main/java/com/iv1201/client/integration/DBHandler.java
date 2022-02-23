@@ -1,5 +1,6 @@
 package com.iv1201.client.integration;
 
+import com.iv1201.client.model.Competence;
 import com.iv1201.client.model.Person;
 import com.iv1201.client.model.UserDTO;
 import java.io.BufferedReader;
@@ -8,6 +9,9 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONArray;
 import org.json.JSONObject; 
 
 /**
@@ -16,7 +20,13 @@ import org.json.JSONObject;
  */
 public class DBHandler {
     
+<<<<<<< Updated upstream
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
+=======
+    private static String token;
+    
+    private static StringBuilder dbAPICallPostAuth(String urlString, String body) {
+>>>>>>> Stashed changes
         
         try {
             URL url = new URL(urlString);
@@ -126,6 +136,7 @@ public class DBHandler {
          
         System.out.println(content.toString());
         JSONObject myJsonObj = new JSONObject(content.toString());
+        token = myJsonObj.getString("access_Token");
         StringBuilder contentUser = dbAPICallGet("http://localhost:8081/user/"+username, myJsonObj.getString("access_Token"));
         JSONObject myJsonObj2 = new JSONObject(contentUser.toString());
         Person person = new Person(myJsonObj2.getString("name"),myJsonObj.getString("access_Token"), myJsonObj2.getJSONObject("role").getString("name"));
@@ -149,5 +160,21 @@ public class DBHandler {
         //return new Person(myJsonObj.getString("name"),myJsonObj.getJSONObject("role").getString("name"), "t");
     }
     
+    public static List<Competence> loadCompetence() {
+        //StringBuilder content = dbAPICallGet("http://localhost:8081/user/" + username);
+        List<Competence> competenceList = new ArrayList<Competence>();
+        StringBuilder content = dbAPICallGet("http://localhost:8081//competence", token);
+        System.out.println("Competence list " + content.toString());
+        JSONArray myJsonArray = new JSONArray(content.toString());
+        for(int i = 0; i < myJsonArray.length(); i++){
+            competenceList.add(new Competence(myJsonArray.getJSONObject(i).getInt("id"), myJsonArray.getJSONObject(i).getString("name")));
+        }
+        
+        return competenceList;
+    }
+    
+    public static String getToken() {        
+        return token;
+    }
         
 }
