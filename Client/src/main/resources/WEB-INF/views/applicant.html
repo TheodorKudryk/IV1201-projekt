@@ -5,26 +5,29 @@
     </head>
     <body>
         <tbody>
-                <td>
-                    <span th:if="${competence_profile == null}">
-                        <h1>
-                            <td th:text="#{txt.welcome} "></td>
-                            <td th:text="#{txt.apply}"></td>
-                        </h1>
-                        <form method="POST" action="/loginAttempt">
-                            <span th:text="#{txt.expertise}" /> <input type="text" name="expertise" id="expertise"><br>
-                            <span th:text="#{txt.yearOfExperience}" /> <input type="text" name="experience" id="experience"><br>
-                            <span th:text="#{txt.timePeriod}" /> <input type="text" name="experience" id="experience"><br>
-                            <input type="hidden" name="apply" value="apply">
-                            <input type="submit" value="apply">
-                        </form>
-                    </span>
-                    <span th:unless="${competence_profile == null}">
-                        <h1>
-                            <td th:text="#{txt.applied}"></td> 
-                        </h1>
-                    </span>
-                </td>      
-            </tbody>
+            <td>
+                <span th:if="${competence_profile == null}">
+                    <h1>
+                        <td th:text="#{txt.welcome} "></td>
+                        <td th:text="#{txt.apply}"></td>
+                    </h1>
+                    <form method="POST" action="/TBD">
+                        <span th:text="#{txt.expertise}" /> <select type="text" name="expertise" id="expertise" th:field="*{competences}">
+                            <option th:each="competence : ${competences}" th:value="${competence.id}" th:text="${competence.name}">
+                            </option>
+                        </select><br>
+                        <span th:text="#{txt.yearOfExperience}" /> <input type="text" name="experience" id="experience"><br>
+                        <span th:text="#{txt.timePeriod}" /> <input type="text" name="experience" id="experience"><br>
+                        <input type="hidden" name="apply" value="apply">
+                        <input type="submit" value="apply">
+                    </form>
+                </span>
+                <span th:unless="${competence_profile == null}">
+                    <h1>
+                        <td th:text="#{txt.applied}"></td>
+                    </h1>
+                </span>
+            </td>      
+        </tbody>
     </body>
 </html>

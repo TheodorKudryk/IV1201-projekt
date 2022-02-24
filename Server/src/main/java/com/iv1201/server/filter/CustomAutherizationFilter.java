@@ -1,4 +1,4 @@
-package filter;
+package com.iv1201.server.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -66,7 +66,6 @@ public class CustomAutherizationFilter extends OncePerRequestFilter {
                     // Error handling
                     response.setHeader("error", ex.getMessage());
                     response.setStatus(FORBIDDEN.value());
-                    //response.sendError(FORBIDDEN.value());
                     Map<String, String> error = new HashMap<>();
                     error.put("error_message", ex.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
@@ -76,8 +75,5 @@ public class CustomAutherizationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
         }
-        
-        
     }
-    
 }

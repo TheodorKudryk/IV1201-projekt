@@ -28,6 +28,7 @@ public class UpdateInformationController {
         DBHandler.updateUser(user);
         return "applicant";
     }
+    
     @RequestMapping(value = "/userupdate")
     public String userUpdate(){
         return "userupdate";

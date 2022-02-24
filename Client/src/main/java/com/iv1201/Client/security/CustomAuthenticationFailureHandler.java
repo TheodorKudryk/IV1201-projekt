@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.iv1201.Client.security;
 
 import java.io.IOException;
@@ -14,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *  Custom authentication failure handler that deals with the case that an user
- * has tried to login and the login failed for some reason
+ *  has tried to login and the login failed for some reason
  */
 @Component
 public class CustomAuthenticationFailureHandler  

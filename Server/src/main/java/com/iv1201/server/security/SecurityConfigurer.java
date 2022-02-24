@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.iv1201.server.security;
 
 
-import filter.CustomAuthenticationFilter;
-import filter.CustomAutherizationFilter;
+import com.iv1201.server.filter.CustomAuthenticationFilter;
+import com.iv1201.server.filter.CustomAutherizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import static org.springframework.http.HttpMethod.GET;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,37 +35,21 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userdetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
-            
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("halli");
         
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //http.authorizeRequests().antMatchers("/login").permitAll();
-        //http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority("ROLE_USER");
-        //http.authorizeRequests().antMatchers(GET, "/recruiterPage").hasAnyAuthority("ROLE_RECRUITER");
         http.authorizeRequests().antMatchers("/competences").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAutherizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        
-        /*
-        http.csrf().disable()
-            .addFilter(new CustomAuthenticationFilter(authenticationManagerBean()))
-            .authorizeRequests().antMatchers("/login").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        */
     }
     
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean(); //To change body of generated methods, choose Tools | Templates.
+        return super.authenticationManagerBean();
     }
     
 }

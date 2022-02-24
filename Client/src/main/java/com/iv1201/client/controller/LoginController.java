@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping; // for mapping request path to invoking method
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
@@ -46,10 +46,12 @@ public class LoginController {
     }
     
     private boolean isAuthenticated() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-        return false;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class.
+            isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
     }
-    return authentication.isAuthenticated();
-}
 }

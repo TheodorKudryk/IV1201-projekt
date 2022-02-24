@@ -18,12 +18,11 @@ import org.json.JSONObject;
  *
  * @author leohj
  */
-public class DBHandler {
-    
+public class DBHandler {    
     private static String token;
     
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
-        
+
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -104,7 +103,8 @@ public class DBHandler {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Authorization", "Bearer "+token);
+            if (token != "")
+                connection.setRequestProperty("Authorization", "Bearer "+token);
             StringBuilder content;
             
             BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -130,9 +130,7 @@ public class DBHandler {
         if (content == null)
             return null;
          
-        System.out.println(content.toString());
         JSONObject myJsonObj = new JSONObject(content.toString());
-        token = myJsonObj.getString("access_Token");
         StringBuilder contentUser = dbAPICallGet("http://localhost:8081/user/"+username, myJsonObj.getString("access_Token"));
         JSONObject myJsonObj2 = new JSONObject(contentUser.toString());
         Person person = new Person(myJsonObj2.getString("name"),myJsonObj.getString("access_Token"), myJsonObj2.getJSONObject("role").getString("name"));
@@ -145,32 +143,26 @@ public class DBHandler {
                 + "'password': '" + user.getPassword() + "',"
                 + "'email': '" + user.getEmail() + "'"
                 + "}";
-        StringBuilder content = dbAPICallPost("http://localhost:8081/updateuser", body);
-        System.out.println("User updated with: " + body);
+        dbAPICallPost("http://localhost:8081/updateuser", body);
     }
     
-    public static Person loadUser(String username) {
-        //StringBuilder content = dbAPICallGet("http://localhost:8081/user/" + username);
-        //JSONObject myJsonObj = new JSONObject(content.toString());
-        return null;
-        //return new Person(myJsonObj.getString("name"),myJsonObj.getJSONObject("role").getString("name"), "t");
-    }
-    
-    public static List<Competence> loadCompetence() {
-        //StringBuilder content = dbAPICallGet("http://localhost:8081/user/" + username);
+    public static List<Competence> loadCompetence(String language) {
         List<Competence> competenceList = new ArrayList<Competence>();
-        StringBuilder content = dbAPICallGet("http://localhost:8081//competence", token);
-        System.out.println("Competence list " + content.toString());
+        StringBuilder content = dbAPICallGet("http://localhost:8081/competences", "");
         JSONArray myJsonArray = new JSONArray(content.toString());
-        for(int i = 0; i < myJsonArray.length(); i++){
-            competenceList.add(new Competence(myJsonArray.getJSONObject(i).getInt("id"), myJsonArray.getJSONObject(i).getString("name")));
+        int j = 0;
+        if(language.contains(languages.sv.toString())){
+            j = (1*(myJsonArray.length()/languages.values().length));            
+        }else{
+            j = (0*(myJsonArray.length()/languages.values().length));
+    }
+        for(int i = 0; i < (myJsonArray.length()/languages.values().length); i++){
+            
+            competenceList.add(new Competence(myJsonArray.getJSONObject(i+j).getInt("id"), myJsonArray.getJSONObject(i+j).getString("name")));
         }
         
         return competenceList;
     }
-    
-    public static String getToken() {        
-        return token;
-    }
         
 }
+enum languages { en, sv;}

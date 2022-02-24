@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.iv1201.server.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "competence_profile")
-public class Competence_profile {
+public class Competence_profile implements Serializable {
     @Id
     @Column(name="competence_profile_id")
     @GeneratedValue
