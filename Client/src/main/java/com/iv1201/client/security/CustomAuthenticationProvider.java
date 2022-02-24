@@ -6,6 +6,7 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,13 +23,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
         try {
+            //For testing purpose
+            //int a = 1/0;
 
             String username = authentication.getName();
             // You can get the password here
             String password = authentication.getCredentials().toString();
 
             Person person = DBHandler.validateLogin(username, password);
-            System.out.println(person.getName() + person.getRole());
             // Checks if there vas a resonse from the server and creates and auth<<
             // with the values
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -38,12 +40,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             return auth;
         }
         catch(NullPointerException ex){
-            System.out.println("login error");
             throw new BadCredentialsException("invalid login details");  
         } catch (ConnectException ex) {
-            System.out.println("connection error");
+            throw new AuthenticationServiceException("No AuthenticationProvider");
         }
-        return null;
+        catch(Exception ex){
+            throw new AuthenticationServiceException("Unknown error");
+        }
     }
 
     @Override

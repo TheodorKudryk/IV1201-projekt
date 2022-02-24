@@ -51,6 +51,7 @@ public class LoginController {
     }
     
     private boolean isAuthenticated() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || AnonymousAuthenticationToken.class.
             isAssignableFrom(authentication.getClass())) {
