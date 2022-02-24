@@ -12,10 +12,10 @@
             <span th:text="#{txt.username}" /> <input type="text" name="username" id="username"><br>
             <span th:text="#{txt.password}" /> <input type="text" name="password" id="password"><br>
             <input type="hidden" name="action" value="login">
-            <input type="submit" value="Login">
+            <input type="submit" th:value="#{txt.loginb}">
         </form>
         <form method="POST" action="/userupdate">
-            <input type="submit" value="Update user info">
+            <input type="submit" th:value="#{txt.resetpw}">
         </form>
     </body>
 </html>

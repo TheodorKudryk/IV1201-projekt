@@ -1,12 +1,15 @@
 package com.iv1201.client.controller;
 
 
+import com.iv1201.client.integration.DBHandler;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -38,10 +41,12 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/startpage")
-    public String startpage(HttpServletRequest request){
+    public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model){
         if (request.isUserInRole("ROLE_recruiter")) {
             return "recruiter";
         }
+        String[] langarray = language.split(",", 2);
+        model.addAttribute("competences", DBHandler.loadCompetence(langarray[0]));
         return "applicant";
     }
     

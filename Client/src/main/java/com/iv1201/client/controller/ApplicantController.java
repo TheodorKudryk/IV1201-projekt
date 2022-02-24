@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ApplicantController {
     
     @RequestMapping(value = "/applicant")
-    public String Applicant(ModelMap model, @RequestHeader("accept-language") String language){
-        String[] langarray = language.split(",", 2);
-        model.addAttribute("competences", DBHandler.loadCompetence(langarray[0]));
-        return "applicant";
+    public String Applicant(){
+        return "redirect:/startpage";
     }
     
 }

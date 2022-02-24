@@ -10,7 +10,9 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject; 
 
@@ -19,6 +21,8 @@ import org.json.JSONObject;
  * @author leohj
  */
 public class DBHandler {
+    private static HashMap<String, Integer> map = new HashMap<String, Integer>(){{put("sv", 1); put("en", 0);}};
+    
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
 
         try {
@@ -149,13 +153,11 @@ public class DBHandler {
         StringBuilder content = dbAPICallGet("http://localhost:8081/competences", "");
         JSONArray myJsonArray = new JSONArray(content.toString());
         int j = 0;
-        if(language.contains(languages.sv.toString())){
-            j = (1*(myJsonArray.length()/languages.values().length));            
-        }else{
-            j = (0*(myJsonArray.length()/languages.values().length));
-    }
-        for(int i = 0; i < (myJsonArray.length()/languages.values().length); i++){
-            
+        try{
+            j = map.get(language)*(myJsonArray.length()/map.size());
+        }catch (Exception e){
+        }
+        for(int i = 0; i < (myJsonArray.length()/map.size()); i++){
             competenceList.add(new Competence(myJsonArray.getJSONObject(i+j).getInt("id"), myJsonArray.getJSONObject(i+j).getString("name")));
         }
         
@@ -163,4 +165,3 @@ public class DBHandler {
     }
         
 }
-enum languages { en, sv;}
