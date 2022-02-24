@@ -19,7 +19,6 @@ import org.json.JSONObject;
  * @author leohj
  */
 public class DBHandler {
-    
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
 
         try {
@@ -145,15 +144,23 @@ public class DBHandler {
         dbAPICallPost("http://localhost:8081/updateuser", body);
     }
     
-    public static List<Competence> loadCompetence() {
+    public static List<Competence> loadCompetence(String language) {
         List<Competence> competenceList = new ArrayList<Competence>();
-        StringBuilder content = dbAPICallGet("http://localhost:8081//competence", "");
+        StringBuilder content = dbAPICallGet("http://localhost:8081/competences", "");
         JSONArray myJsonArray = new JSONArray(content.toString());
-        for(int i = 0; i < myJsonArray.length(); i++){
-            competenceList.add(new Competence(myJsonArray.getJSONObject(i).getInt("id"), myJsonArray.getJSONObject(i).getString("name")));
+        int j = 0;
+        if(language.contains(languages.sv.toString())){
+            j = (1*(myJsonArray.length()/languages.values().length));            
+        }else{
+            j = (0*(myJsonArray.length()/languages.values().length));
+    }
+        for(int i = 0; i < (myJsonArray.length()/languages.values().length); i++){
+            System.out.println(myJsonArray.getJSONObject(i).getString("name"));
+            competenceList.add(new Competence(myJsonArray.getJSONObject(i+j).getInt("id"), myJsonArray.getJSONObject(i+j).getString("name")));
         }
         
         return competenceList;
     }
         
 }
+enum languages { en, sv;}

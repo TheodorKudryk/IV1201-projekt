@@ -4,6 +4,9 @@
         <div th:replace="fragments :: myheader('Login Details')"></div>
     </head>
     <body>
+        <form method="GET" action="/login">
+            <input type="submit" value="back to login">
+        </form>
         <h1><span th:text="#{txt.userUpdate}" /></h1>
         <form method="POST" action="/updateinformation">
             <span th:text="#{txt.username}" /> <input type="text" name="username" id="username"><br>
