@@ -20,13 +20,9 @@ import org.json.JSONObject;
  */
 public class DBHandler {
     
-<<<<<<< Updated upstream
-    private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
-=======
     private static String token;
     
-    private static StringBuilder dbAPICallPostAuth(String urlString, String body) {
->>>>>>> Stashed changes
+    private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
         
         try {
             URL url = new URL(urlString);
