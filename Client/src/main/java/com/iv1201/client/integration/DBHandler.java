@@ -155,7 +155,7 @@ public class DBHandler {
             j = (0*(myJsonArray.length()/languages.values().length));
     }
         for(int i = 0; i < (myJsonArray.length()/languages.values().length); i++){
-            System.out.println(myJsonArray.getJSONObject(i).getString("name"));
+            
             competenceList.add(new Competence(myJsonArray.getJSONObject(i+j).getInt("id"), myJsonArray.getJSONObject(i+j).getString("name")));
         }
         

@@ -16,7 +16,6 @@ public class ApplicantController {
     @RequestMapping(value = "/applicant")
     public String Applicant(ModelMap model, @RequestHeader("accept-language") String language){
         String[] langarray = language.split(",", 2);
-        System.out.println(langarray[0] + " competence language");
         model.addAttribute("competences", DBHandler.loadCompetence(langarray[0]));
         return "applicant";
     }
