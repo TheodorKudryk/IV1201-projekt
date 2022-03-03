@@ -25,11 +25,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         try {
             //For testing purpose
             //int a = 1/0;
-
             String username = authentication.getName();
             // You can get the password here
             String password = authentication.getCredentials().toString();
-
             Person person = DBHandler.validateLogin(username, password);
             // Checks if there vas a resonse from the server and creates and auth<<
             // with the values

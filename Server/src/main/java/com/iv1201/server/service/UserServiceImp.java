@@ -29,11 +29,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
     private final UserRepository repository;
     
     public User loadUser(String username)throws UsernameNotFoundException{
-        
        User user = repository.findByUsername(username);
        return user;
     }
-
+    
+  
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username);
@@ -50,6 +50,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public User getUser(String username) {
         return repository.findByUsername(username);
     }
+    
+    @Override
+    public User getUserByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
 
     @Override
     public List<User> getUsers() {
@@ -60,6 +66,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public User saveUser(User user) {
         return repository.save(user);
     }
-
     
+    public User updateUser(User user){
+        User existingUser = repository.findByEmail(user.getEmail());
+        if(existingUser != null){
+            existingUser.setUsername(user.getUsername());
+            existingUser.setPassword(user.getPassword());
+        }
+        return repository.save(existingUser);
+    }
 }

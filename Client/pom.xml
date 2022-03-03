@@ -73,6 +73,18 @@
 	  <version>20211205</version>
 	  <type>jar</type>
 	 </dependency>
+	 <dependency>
+	  <groupId>jakarta.persistence</groupId>
+	  <artifactId>jakarta.persistence-api</artifactId>
+	  <version>2.2.3</version>
+	  <type>jar</type>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.springframework.data</groupId>
+	  <artifactId>spring-data-jpa</artifactId>
+	  <version>2.6.1</version>
+	  <type>jar</type>
+	 </dependency>
 	</dependencies>
 
 	<build>
