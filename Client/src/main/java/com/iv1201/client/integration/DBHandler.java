@@ -1,5 +1,6 @@
 package com.iv1201.client.integration;
 
+import com.iv1201.client.model.ApplicationDTO;
 import com.iv1201.client.model.Competence;
 import com.iv1201.client.model.Person;
 import com.iv1201.client.model.UserDTO;
@@ -12,7 +13,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject; 
 
@@ -22,9 +22,8 @@ import org.json.JSONObject;
  */
 public class DBHandler {
     private static HashMap<String, Integer> map = new HashMap<String, Integer>(){{put("sv", 1); put("en", 0);}};
-    
+    private static HashMap<String, Person> users = new HashMap<String, Person>(){};
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
-
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -32,7 +31,6 @@ public class DBHandler {
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             StringBuilder content;
             connection.setRequestProperty("Accept", "application/json");
-            
             connection.setDoOutput(true);
             try(OutputStream os = connection.getOutputStream()) {
                 byte[] input = body.getBytes("utf-8");
@@ -62,7 +60,7 @@ public class DBHandler {
 
     }
     
-    private static StringBuilder dbAPICallPost(String urlString, String body) {
+    private static StringBuilder dbAPICallPost(String urlString, String body, String token) {
         
         try {
             URL url = new URL(urlString);
@@ -71,7 +69,8 @@ public class DBHandler {
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             StringBuilder content;
             connection.setRequestProperty("Accept", "application/json");
-            
+            if (token != "")
+                connection.setRequestProperty("Authorization", "Bearer "+token);
             JSONObject myJsonObj = new JSONObject(body);
             connection.setDoOutput(true);
             try(OutputStream os = connection.getOutputStream()) {
@@ -89,7 +88,7 @@ public class DBHandler {
                 content.append(System.lineSeparator());
             }
             connection.disconnect();
-
+            System.out.println("check 2");
             return content;
         } catch (Exception ex) {
             System.out.println("Error in dbAPICallPost()");
@@ -135,10 +134,11 @@ public class DBHandler {
         JSONObject myJsonObj = new JSONObject(content.toString());
         StringBuilder contentUser = dbAPICallGet("http://localhost:8081/user/"+username, myJsonObj.getString("access_Token"));
         JSONObject myJsonObj2 = new JSONObject(contentUser.toString());
-        Person person = new Person(myJsonObj2.getString("name"),myJsonObj.getString("access_Token"), myJsonObj2.getJSONObject("role").getString("name"));
+        Person person = new Person(myJsonObj2.getInt("id"),myJsonObj2.getString("name"),myJsonObj.getString("access_Token"), myJsonObj2.getJSONObject("role").getString("name"));
+        users.put(username, person);
         return person;
     }
-    
+
     public static String validateEmail(String email) throws ConnectException{
         String body = "email="+email;
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/getToken", body);
@@ -171,6 +171,36 @@ public class DBHandler {
         System.out.println(content.toString());
         return content.toString();
     }
+    
+    public static void updateUser(UserDTO user){
+        Person person = users.get(user.getUsername());
+        String body = "{"
+                + "'username': '" + user.getUsername() + "',"
+                + "'password': '" + user.getPassword() + "',"
+                + "'email': '" + user.getEmail() + "'"
+                + "}";
+        dbAPICallPost("http://localhost:8081/updateuser", body, person.getToken());
+    }
+    
+    public static void application(ApplicationDTO application, String Username) throws ConnectException{
+        Person person = users.get(Username);
+        System.out.println("check 1");
+        String body = "{"
+                + "'person_id': '" + person.getId() + "',"
+                + "'competence_id': '" + application.getCompetence() + "',"
+                + "'years_of_experience': '" + application.getExperience() + "'"
+                + "}";
+        
+        dbAPICallPost("http://localhost:8081/addProfile", body, person.getToken());
+        body = "{"
+                + "'person_id': '" + person.getId() + "',"
+                + "'competence_id': '" + application.getStart() + "',"
+                + "'years_of_experience': '" + application.getEnd() + "'"
+                + "}";
+        dbAPICallPost("http://localhost:8081/addProfile", body, person.getToken());
+        
+    }
+    
     
     public static List<Competence> loadCompetence(String language) {
         List<Competence> competenceList = new ArrayList<Competence>();

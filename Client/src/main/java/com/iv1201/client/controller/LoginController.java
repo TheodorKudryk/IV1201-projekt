@@ -51,9 +51,10 @@ public class LoginController {
     public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model){
         if (request.isUserInRole("ROLE_recruiter")) {
             return "recruiter";
-        }
+        }   
         String[] langarray = language.split(",", 2);
         model.addAttribute("competences", DBHandler.loadCompetence(langarray[0]));
+        model.addAttribute("username", request.getRemoteUser());
         return "applicant";
     }
     

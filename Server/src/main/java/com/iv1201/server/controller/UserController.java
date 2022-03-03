@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  *
  * @author theok
+ * 
  */
 @RestController 
 @RequiredArgsConstructor
@@ -24,5 +25,9 @@ public class UserController {
     public User findUserByUsername(@Valid @PathVariable String uname) {
         return service.loadUser(uname);
     }
+    /*@PostMapping("/user/{uname}")
+    public User findUserByMail(@PathVariable String uname) {
+        return service.updateUser(uname);
+    }*/
     
 }
