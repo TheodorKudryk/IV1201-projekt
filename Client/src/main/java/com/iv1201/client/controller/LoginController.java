@@ -40,6 +40,13 @@ public class LoginController {
         return "login";
     }
     
+    /**
+     * Startpage for all users, depending on role user is sent to different views
+     * @param request 
+     * @param language Used for the loading competence
+     * @param model Used by Thymeleaf
+     * @return the view used 
+     */
     @RequestMapping(value = "/startpage")
     public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model){
         if (request.isUserInRole("ROLE_recruiter")) {
@@ -50,8 +57,12 @@ public class LoginController {
         return "applicant";
     }
     
-    private boolean isAuthenticated() {
-
+    /**
+     * Checks if the user is logged in, used to redirect users if they are already 
+     * logged in 
+     * @return true if user is logged in
+     */
+    public static boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || AnonymousAuthenticationToken.class.
             isAssignableFrom(authentication.getClass())) {

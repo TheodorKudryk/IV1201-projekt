@@ -8,6 +8,7 @@
         <p th:if="${loginError}" class="error" th:text="#{txt.loginError}"></p>
         <p th:if="${dbError}" class="error" th:text="#{txt.dbError}"></p>
         <p th:if="${unknownError}" class="error" th:text="#{txt.unknownError}"></p>
+        <p th:if="${reset}" class="error" th:text="#{resetAct.login}"></p>
         <form method="POST" action="/loginAttempt">
             <span th:text="#{txt.username}" /> <input type="text" name="username" id="username"><br>
             <span th:text="#{txt.password}" /> <input type="text" name="password" id="password"><br>

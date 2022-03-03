@@ -35,10 +35,16 @@ public class UpdateInformationController {
         User user = userService.getUserByEmail(userEmail);
         if(user != null){
             if(user.getUsername() == null && user.getPassword() == null){
-                String token = UUID.randomUUID().toString();
-                service.createPasswordResetTokenForUser(userEmail, token);
+                String token;
+                Password_reset_token passtoken = service.getPasswordToken(userEmail);
+                if(passtoken != null)
+                    token = passtoken.getToken();
+                else{
+                    token = UUID.randomUUID().toString();
+                    service.createPasswordResetTokenForUser(userEmail, token);
+                }
                 //mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, userEmail));
-                System.out.println(token);
+                System.out.println("/userUpdate?token="+token);
                 return "ok";
             }
             return "already been reset";

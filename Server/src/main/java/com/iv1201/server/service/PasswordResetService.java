@@ -42,8 +42,9 @@ public class PasswordResetService {
         //        : null;
     }
 
-    private boolean isTokenFound(Password_reset_token passToken) {
-        return passToken != null;
+
+    public Password_reset_token getPasswordToken(String email){
+        return passwordTokenRepository.findByEmail(email);
     }
     
     public void deleteToken(Password_reset_token token){

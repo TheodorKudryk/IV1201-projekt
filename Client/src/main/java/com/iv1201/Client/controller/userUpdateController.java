@@ -27,10 +27,12 @@ public class userUpdateController {
 
     @RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
     public String checkToken(Model model, String token){
-        System.out.println(token);
+        if (LoginController.isAuthenticated()) {
+            return "redirect:startpage";
+        }
         try {
             if(token == null || DBHandler.validateToken(token)== null){
-                return "redirect:login";
+                return "redirect:error";
             }
         } catch (ConnectException ex) {
                 return "redirect:login?db";
@@ -44,13 +46,9 @@ public class userUpdateController {
     public String resetAccount(Model model, HttpServletRequest request,  @RequestParam("token") String token,
             @RequestParam("username") String username, @RequestParam("password") String password) {
         try {
-            //System.out.println("Get token");
-            //System.out.println("Token"+model.getAttribute("token"));
-            //String token ="";
-            System.out.println("test"+token);
             UserDTO user = new UserDTO(username,password,"");
             DBHandler.updateUser(user, token);
-            System.out.println("test");
+            model.addAttribute("reset",true);
             return "redirect:login";
         } catch (ConnectException ex) {
                 return "redirect:login?db";

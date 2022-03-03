@@ -5,6 +5,7 @@
  */
 package com.iv1201.Client.controller;
 
+import com.iv1201.client.controller.LoginController;
 import com.iv1201.client.integration.DBHandler;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
@@ -24,20 +25,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ResetAccountController {
 
+    /**
+     * Start view for page when resetting users without username or password
+     * @param model Used by Thymeleaf
+     * @return view used
+     */
     @RequestMapping(value = "/resetAccount", method = RequestMethod.GET)
     public String resetAccount(Model model){
+        if (LoginController.isAuthenticated()) {
+            return "redirect:startpage";
+        }
         return "resetaccount";
     }
     
+    /**
+     * Post method used for getting a token for which the user can reset the account
+     * @param model Used by Thymeleaf
+     * @param request 
+     * @param userEmail The user resets based on email
+     * @return the view with a message depending on how it went 
+     */
     @RequestMapping(value = "/resetAccount", method = RequestMethod.POST)
-    public String resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
-        String test = "";
+    public String resetPassword(Model model, HttpServletRequest request, @RequestParam("email") String userEmail) {
+        String serverMsg = "";
         try {
-            test = DBHandler.validateEmail(userEmail);
+            serverMsg = DBHandler.validateEmail(userEmail);
         } catch (ConnectException ex) {
-
+            return "redirect:login?db";
         }
-        System.out.println(test);
+        if(serverMsg.contains("ok"))
+                model.addAttribute("ok",true);
+        else if(serverMsg.contains("invalid email"))
+                model.addAttribute("invalid",true);
+        else if(serverMsg.contains("already been reset"))
+                model.addAttribute("reset",true);
+        else
+            model.addAttribute("error",true);
         return "resetaccount";
     }
 
