@@ -13,7 +13,7 @@ public class errorController implements ErrorController  {
 
         @RequestMapping("/error")
         public String handleError() {
-            return "redirect:/startpage";
+            return "redirect:/login?error";
     }
 }
 

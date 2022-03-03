@@ -139,13 +139,37 @@ public class DBHandler {
         return person;
     }
     
-    public static void updateUser(UserDTO user){
-        String body = "{"
-                + "'username': '" + user.getUsername() + "',"
-                + "'password': '" + user.getPassword() + "',"
-                + "'email': '" + user.getEmail() + "'"
-                + "}";
-        dbAPICallPost("http://localhost:8081/updateuser", body);
+    public static String validateEmail(String email) throws ConnectException{
+        String body = "email="+email;
+        StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/getToken", body);
+        if (content == null)
+            return null;
+        System.out.println(content.toString());
+        return content.toString();
+    }
+    
+    public static String validateToken(String token) throws ConnectException{
+        String body = "token="+token;
+        System.out.println("token"+token);
+        StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/validateToken", body);
+        if (content == null)
+            return null;
+        System.out.println(content.toString());
+        return content.toString();
+    }
+    
+    public static String updateUser(UserDTO user, String token) throws ConnectException{
+        String body = "username="+user.getUsername()+"&password="+user.getPassword()+"&token="+token;
+//        String body = "{"
+//                + "'username': '" + user.getUsername() + "',"
+//                + "'password': '" + user.getPassword() + "',"
+//                + "'token': '" + token + "'"
+//                + "}";
+        StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/updateAccount", body);
+        if (content == null)
+            return null;
+        System.out.println(content.toString());
+        return content.toString();
     }
     
     public static List<Competence> loadCompetence(String language) {
