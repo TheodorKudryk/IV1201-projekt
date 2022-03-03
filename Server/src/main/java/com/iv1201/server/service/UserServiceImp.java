@@ -10,7 +10,6 @@ import com.iv1201.server.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,12 +17,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author theok
  */
-@Service @RequiredArgsConstructor @Transactional 
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+@Service @RequiredArgsConstructor
 public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     private final UserRepository repository;
