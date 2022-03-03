@@ -45,7 +45,7 @@ public class LoginViewTest {
     @Test
     public void testResetBtn() {
         //Click on resetPasswordButton
-        WebElement resetPwButton = driver.findElement(By.id("resetpw"));
+        WebElement resetPwButton = driver.findElement(By.id("resetBtn"));
         resetPwButton.click();
         String pageTitle = driver.getTitle();
         Assert.assertEquals("Login Details", pageTitle);
