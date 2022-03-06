@@ -69,8 +69,11 @@ public class DBHandler {
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             StringBuilder content;
             connection.setRequestProperty("Accept", "application/json");
-            if (token != "")
+            if (token != ""){
                 connection.setRequestProperty("Authorization", "Bearer "+token);
+                System.out.println("token hänger med.");
+            }
+                
             JSONObject myJsonObj = new JSONObject(body);
             connection.setDoOutput(true);
             try(OutputStream os = connection.getOutputStream()) {
@@ -136,6 +139,7 @@ public class DBHandler {
         JSONObject myJsonObj2 = new JSONObject(contentUser.toString());
         Person person = new Person(myJsonObj2.getInt("id"),myJsonObj2.getString("name"),myJsonObj.getString("access_Token"), myJsonObj2.getJSONObject("role").getString("name"));
         users.put(username, person);
+        System.out.println(myJsonObj.getString("access_Token"));
         return person;
     }
 
@@ -182,9 +186,15 @@ public class DBHandler {
         dbAPICallPost("http://localhost:8081/updateuser", body, person.getToken());
     }
     
+    public static String applications(String Username){
+        Person person = users.get(Username);
+        StringBuilder content = dbAPICallGet("http://localhost:8081/applications/" + person.getId(), person.getToken());
+        return content.toString();
+    }
+    
     public static void application(ApplicationDTO application, String Username) throws ConnectException{
         Person person = users.get(Username);
-        System.out.println("check 1");
+        System.out.println("check 1: " + person.getToken());
         String body = "{"
                 + "'person_id': '" + person.getId() + "',"
                 + "'competence_id': '" + application.getCompetence() + "',"
@@ -194,10 +204,12 @@ public class DBHandler {
         dbAPICallPost("http://localhost:8081/addProfile", body, person.getToken());
         body = "{"
                 + "'person_id': '" + person.getId() + "',"
-                + "'competence_id': '" + application.getStart() + "',"
-                + "'years_of_experience': '" + application.getEnd() + "'"
+                + "'from_date': '" + application.getStart() + "',"
+                + "'to_date': '" + application.getEnd() + "'"
                 + "}";
-        dbAPICallPost("http://localhost:8081/addProfile", body, person.getToken());
+        
+        System.out.println("start: " +application.getStart()+ ", end: " + application.getEnd());
+        dbAPICallPost("http://localhost:8081/addAvailability", body, person.getToken());
         
     }
     

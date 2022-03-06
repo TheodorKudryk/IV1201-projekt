@@ -55,6 +55,7 @@ public class LoginController {
         String[] langarray = language.split(",", 2);
         model.addAttribute("competences", DBHandler.loadCompetence(langarray[0]));
         model.addAttribute("username", request.getRemoteUser());
+        model.addAttribute("competence_profile", DBHandler.applications(request.getRemoteUser()));
         return "applicant";
     }
     

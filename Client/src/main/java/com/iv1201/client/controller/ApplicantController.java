@@ -1,6 +1,7 @@
 package com.iv1201.client.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.iv1201.client.integration.DBHandler;
 import com.iv1201.client.model.ApplicationDTO;
 import java.net.ConnectException;
@@ -23,7 +24,7 @@ public class ApplicantController {
     }
     
     @RequestMapping(value = "/application")
-    public String Applicantion(@RequestParam("competence") String competence, @RequestParam("experience") String experience, @RequestParam("begin")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date begin, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end, @RequestParam("username") String username) throws ConnectException{
+    public String Applicantion(@RequestParam("competence") String competence, @RequestParam("experience") String experience, @RequestParam("begin")@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") String begin, @RequestParam("end") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") String end, @RequestParam("username") String username) throws ConnectException{
         ApplicationDTO applicationDTO = new ApplicationDTO(competence, experience, begin, end);
         System.out.println("check0");
         DBHandler.application(applicationDTO, username);

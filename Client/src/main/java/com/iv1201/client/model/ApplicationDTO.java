@@ -5,7 +5,6 @@
  */
 package com.iv1201.client.model;
 
-import java.util.Date;
 
 
 
@@ -16,10 +15,10 @@ import java.util.Date;
 public class ApplicationDTO {
     private String competence;
     private String experience;
-    private Date start;
-    private Date end;
+    private String start;
+    private String end;
     
-    public ApplicationDTO(String competence, String experience, Date start, Date end) {
+    public ApplicationDTO(String competence, String experience, String start, String end) {
         this.competence = competence;
         this.experience = experience;
         this.start = start;
@@ -36,11 +35,11 @@ public class ApplicationDTO {
         return experience;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public String getEnd() {
         return end;
     }
 }

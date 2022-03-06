@@ -29,15 +29,11 @@ public class Competence_profile implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY, generator="seq-gen")
     private int id;
     
-    @NotBlank()
-    @Digits(integer = 100, fraction = 0)
+   
     private int person_id;
     
-    @NotBlank()
-    @Digits(integer = 100, fraction = 0)
+    
     private int competence_id;
     
-    @NotBlank()
-    @Digits(integer = 3, fraction = 0)
     private BigDecimal years_of_experience;
 }

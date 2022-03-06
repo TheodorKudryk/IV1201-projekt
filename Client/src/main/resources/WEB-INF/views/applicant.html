@@ -13,7 +13,7 @@
                     </h1>
                     <form method="POST" th:action="@{/application}">
                         <span th:text="#{txt.expertise}" /> 
-                            <select th:field="*{competences}" id="competence" name="competence">
+                            <select id="competence" name="competence">
                                 <option th:each="competence : ${competences}" th:value="${competence.id}" th:text="${competence.name}">
                                 </option>
                             </select><br>
