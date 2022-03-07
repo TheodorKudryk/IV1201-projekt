@@ -7,15 +7,11 @@ package com.iv1201.Client.controller;
 
 import com.iv1201.client.controller.LoginController;
 import com.iv1201.client.integration.DBHandler;
-import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.net.ConnectException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMethod;
 /**

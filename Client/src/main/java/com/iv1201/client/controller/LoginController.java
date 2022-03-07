@@ -25,7 +25,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/login")
     public String login(Model model, String login, String db, String error){
-        if (isAuthenticated()) {
+        if (isAuthenticated() && db == null) {
             return "redirect:startpage";
         }
         if(login != null){

@@ -5,6 +5,7 @@ import com.iv1201.client.model.Competence;
 import com.iv1201.client.model.Person;
 import com.iv1201.client.model.UserDTO;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ConnectException;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 public class DBHandler {
     private static HashMap<String, Integer> map = new HashMap<String, Integer>(){{put("sv", 1); put("en", 0);}};
     private static HashMap<String, Person> users = new HashMap<String, Person>(){};
+    
+    
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
         try {
             URL url = new URL(urlString);
@@ -52,12 +55,9 @@ public class DBHandler {
             return content;
         } catch(ConnectException ex){
             throw ex;
-        } catch (Exception ex) {
-            System.out.println("Error in dbAPICallPostAuth()");
-            ex.printStackTrace();
+        } catch (IOException ex) {
+           return null;
         }
-        return null;
-
     }
     
     private static StringBuilder dbAPICallPost(String urlString, String body, String token) {
@@ -69,7 +69,7 @@ public class DBHandler {
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             StringBuilder content;
             connection.setRequestProperty("Accept", "application/json");
-            if (token != ""){
+            if (!"".equals(token)){
                 connection.setRequestProperty("Authorization", "Bearer "+token);
                 System.out.println("token hänger med.");
             }
@@ -128,6 +128,13 @@ public class DBHandler {
         return null;
     }
     
+    /**
+     * 
+     * @param username
+     * @param password
+     * @return
+     * @throws ConnectException 
+     */
     public static Person validateLogin(String username, String password) throws ConnectException {
         String body = "username="+username+"&password="+password;
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/login", body);
@@ -142,49 +149,53 @@ public class DBHandler {
         System.out.println(myJsonObj.getString("access_Token"));
         return person;
     }
-
+    
+    /**
+     * This checks if the email that was sent is valid and the account is valid 
+     * to be reset
+     * @param email the email that is sent by the user
+     * @return the message from the server
+     * @throws ConnectException if there is no connection to the database
+     */
     public static String validateEmail(String email) throws ConnectException{
         String body = "email="+email;
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/getToken", body);
         if (content == null)
             return null;
-        System.out.println(content.toString());
         return content.toString();
     }
     
+    /**
+     * Checks if the token sent exist in the database
+     * @param token the token sent from the user
+     * @return the message from the server
+     * @throws ConnectException if there is no connection to the database
+     */
     public static String validateToken(String token) throws ConnectException{
         String body = "token="+token;
         System.out.println("token"+token);
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/validateToken", body);
         if (content == null)
             return null;
-        System.out.println(content.toString());
         return content.toString();
     }
     
+    /**
+     * Updates the user with the new username and password
+     * @param user an user class with the new username and password
+     * @param token the token that is used to get the right server
+     * @return a message from the server and null if there has been a problem 
+     * @throws ConnectException if there is no connection to the database
+     */
     public static String updateUser(UserDTO user, String token) throws ConnectException{
         String body = "username="+user.getUsername()+"&password="+user.getPassword()+"&token="+token;
-//        String body = "{"
-//                + "'username': '" + user.getUsername() + "',"
-//                + "'password': '" + user.getPassword() + "',"
-//                + "'token': '" + token + "'"
-//                + "}";
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/updateAccount", body);
         if (content == null)
             return null;
         System.out.println(content.toString());
         return content.toString();
     }
-    
-    public static void updateUser(UserDTO user){
-        Person person = users.get(user.getUsername());
-        String body = "{"
-                + "'username': '" + user.getUsername() + "',"
-                + "'password': '" + user.getPassword() + "',"
-                + "'email': '" + user.getEmail() + "'"
-                + "}";
-        dbAPICallPost("http://localhost:8081/updateuser", body, person.getToken());
-    }
+
     
     public static String applications(String Username){
         Person person = users.get(Username);
