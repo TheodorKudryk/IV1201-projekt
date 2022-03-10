@@ -13,8 +13,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 
 
 /**
- *
- * @author leohj
+ * Part of spring security, serves as config file for customizing spring security
+ * @author Zarcez
  */
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {

@@ -125,11 +125,12 @@ public class DBHandler {
     }
     
     /**
-     * 
-     * @param username
-     * @param password
-     * @return
-     * @throws ConnectException 
+     * Checks the username and password with the database handler and if they fit
+     * get an access token that allows the user access
+     * @param username the username that the user is trying to log in with
+     * @param password the password that the user is trying to log in with
+     * @return info about the user, their role and a access token
+     * @throws ConnectException if there is no connection to the databasehandler
      */
     public static Person validateLogin(String username, String password) throws ConnectException {
         String body = "username="+username+"&password="+password;
@@ -142,7 +143,6 @@ public class DBHandler {
         JSONObject myJsonObj2 = new JSONObject(contentUser.toString());
         Person person = new Person(myJsonObj2.getInt("id"),myJsonObj2.getString("name"),myJsonObj.getString("access_Token"), myJsonObj2.getJSONObject("role").getString("name"));
         users.put(username, person);
-        System.out.println(myJsonObj.getString("access_Token"));
         return person;
     }
     
@@ -197,6 +197,13 @@ public class DBHandler {
         return content.toString();
     }
     
+    /**
+     * Sends an application to the database handler 
+     * @param application contains all the info about the application
+     * @param Username the username of the logged in user
+     * @return message from the server
+     * @throws ConnectException if there was no connection to the database handler
+     */
     public static String application(ApplicationDTO application, String Username) throws ConnectException{
         Person person = users.get(Username);
         String body = "{"
@@ -217,7 +224,12 @@ public class DBHandler {
         return content.toString();
     }
     
-    
+    /**
+     * Get the list of available competences and returns the sublist that contains
+     * the names of the competences that fits the users language
+     * @param language
+     * @return 
+     */
     public static List<Competence> loadCompetence(String language) {
         List<Competence> competenceList = new ArrayList<Competence>();
         StringBuilder content = dbAPICallGet("http://localhost:8081/competences", "");

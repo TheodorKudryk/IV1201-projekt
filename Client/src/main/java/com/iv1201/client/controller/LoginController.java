@@ -45,6 +45,7 @@ public class LoginController {
      * @param request 
      * @param language Used for the loading competence
      * @param model Used by Thymeleaf
+     * @param error Used if the user was sent here by an error
      * @return the view used 
      */
     @RequestMapping(value = "/startpage")
