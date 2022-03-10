@@ -86,7 +86,7 @@ public class ApplicantViewTest {
      */
     @Test
     public void testBeginTimePeriodFieldDefault() {
-        WebElement timeField = driver.findElement(By.id("begin"));
+        WebElement timeField = driver.findElement(By.id("start"));
         String chosenDate = timeField.getAttribute("value");
         Assert.assertEquals("2022-06-01", chosenDate);
     }
@@ -96,7 +96,7 @@ public class ApplicantViewTest {
      */
     @Test
     public void testBeginTimePeriodField() {
-        WebElement timeField = driver.findElement(By.id("begin"));
+        WebElement timeField = driver.findElement(By.id("start"));
         timeField.sendKeys("2022-07-12");
         String chosenDate = timeField.getAttribute("value");
         Assert.assertEquals("2022-02-12", chosenDate);

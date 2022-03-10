@@ -57,8 +57,8 @@ public class LoginViewTest {
     public void testLoginBtnNoInput() {
         WebElement loginBtn = driver.findElement(By.id("loginBtn"));
         loginBtn.click();
-        WebElement errorMsg = driver.findElement(By.className("error"));
-        Assert.assertEquals("Invalid username or password", errorMsg.getText());
+        String pageTitle = driver.getTitle();
+        Assert.assertEquals("Login", pageTitle);
     }
     
     /**

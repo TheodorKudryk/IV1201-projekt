@@ -55,6 +55,8 @@ public class ResetAccountViewTest {
      */
     @Test
     public void testUpdateBtnInvalidEmail() {
+        WebElement emailField = driver.findElement(By.id("email"));
+        emailField.sendKeys("invalidEmail");
         WebElement updateBtn = driver.findElement(By.id("updateBtn"));
         updateBtn.click();
         WebElement errorMsg = driver.findElement(By.className("error"));
