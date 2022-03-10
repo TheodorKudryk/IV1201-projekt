@@ -8,16 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author theok
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,10 +22,8 @@ public class Competence_profile implements Serializable {
     @Column(name="competence_profile_id")
     @GeneratedValue(strategy= GenerationType.IDENTITY, generator="seq-gen")
     private int id;
-    
    
     private int person_id;
-    
     
     private int competence_id;
     

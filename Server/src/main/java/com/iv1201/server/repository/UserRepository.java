@@ -9,10 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-/**
- *
- * @author theok
- */
 public interface UserRepository extends JpaRepository<User,Integer> {
     User findByUsername(String username);
 
