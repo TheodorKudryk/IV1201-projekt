@@ -22,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- *
+ * A custom filter for authenticating users, part of spring security
  * @author theok
  */
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -33,6 +33,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         this.authenticationManager = authenticationManager;
     }
     
+    /**
+     * Part of spring security, attempts an authentication
+     * @param request from which to extract parameters and perform the authentication
+     * @param response not used
+     * @return the authenticated user token, or null if authentication is incomplete.
+     * @throws AuthenticationException if authentication fails.
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
@@ -43,6 +50,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         
     }
 
+    /**
+     * Part of spring security, called after successful authentication
+     * @param request from which to extract parameters
+     * @param response  the response, which may be needed if the implementation has to do a redirect as part of a multi-stage authentication process
+     * @param chain not used
+     * @param authentication authentication user token, part of spring security
+     * @throws java.io.IOException
+     * @throws javax.servlet.ServletException 
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User)authentication.getPrincipal();
