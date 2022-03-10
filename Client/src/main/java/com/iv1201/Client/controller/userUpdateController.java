@@ -34,13 +34,12 @@ public class userUpdateController {
             return "redirect:startpage";
         }
         try {
-            if(token == null || DBHandler.validateToken(token)== null){ //Checks if the token is not valid
+            if(token == null || DBHandler.validateToken(token).contains("No token")){ //Checks if the token is not valid
                 return "redirect:error";
             }
         } catch (ConnectException ex) { //If there was no connection to the database
                 return "redirect:login?db";
         }
-        System.out.println("set token");
         model.addAttribute("token", token);
         return "userupdate";
     }

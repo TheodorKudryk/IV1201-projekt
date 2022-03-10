@@ -25,7 +25,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/login")
     public String login(Model model, String login, String db, String error){
-        if (isAuthenticated() && db == null) {
+        if (isAuthenticated() && (db == null || error == null)) {
             return "redirect:startpage";
         }
         if(login != null){
@@ -48,7 +48,10 @@ public class LoginController {
      * @return the view used 
      */
     @RequestMapping(value = "/startpage")
-    public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model){
+    public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model, String error){
+        if(error != null){
+            model.addAttribute("unknownError",true);
+        }
         if (request.isUserInRole("ROLE_recruiter")) {
             return "recruiter";
         }   

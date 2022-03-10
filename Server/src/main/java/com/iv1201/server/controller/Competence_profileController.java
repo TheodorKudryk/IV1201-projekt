@@ -2,6 +2,7 @@ package com.iv1201.server.controller;
 
 import com.iv1201.server.entity.Competence_profile;
 import com.iv1201.server.service.Competence_profileService;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,13 @@ public class Competence_profileController {
     private Competence_profileService service;
     
     @PostMapping("/addProfile")
-    public Competence_profile addProfile(@Valid @RequestBody Competence_profile competence_profile){
-        return service.saveCompetence_profile(competence_profile);
+    public String addProfile(@Valid @RequestBody Competence_profile competence_profile){
+        System.out.println("check"+competence_profile);
+        if (competence_profile.getYears_of_experience().compareTo(BigDecimal.ZERO) < 0 
+                || competence_profile.getYears_of_experience().compareTo(BigDecimal.valueOf(100)) > 0)
+            return "invalid number";
+        service.saveCompetence_profile(competence_profile);
+        return "OK";
     }
     @GetMapping("/applications/{id}")
     public List<Competence_profile> applications(@PathVariable int id){

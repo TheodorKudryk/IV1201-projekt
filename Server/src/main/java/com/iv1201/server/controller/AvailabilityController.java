@@ -23,7 +23,11 @@ public class AvailabilityController {
     private AvailabilityService service;
     
     @PostMapping("/addAvailability")
-    public Availability addProfile(@RequestBody Availability availability){
-        return service.saveAvailability(availability);
+    public String addAvailability(@RequestBody Availability availability){
+        System.out.println("test dates"+availability.getFrom_date().before(availability.getTo_date()));
+       if(!availability.getFrom_date().before(availability.getTo_date()))
+           return "invalid dates";
+       service.saveAvailability(availability);
+       return "ok";     
     }
 }

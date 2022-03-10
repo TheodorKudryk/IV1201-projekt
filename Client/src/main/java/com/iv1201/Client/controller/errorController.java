@@ -4,6 +4,7 @@
  */
 package com.iv1201.Client.controller;
 
+import static com.iv1201.client.controller.LoginController.isAuthenticated;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ public class errorController implements ErrorController  {
 
         @RequestMapping("/error")
         public String handleError() {
+            if (isAuthenticated())
+                return "redirect:/startpage?error";
             return "redirect:/login?error";
     }
 }

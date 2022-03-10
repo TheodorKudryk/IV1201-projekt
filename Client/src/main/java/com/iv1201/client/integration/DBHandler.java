@@ -61,17 +61,15 @@ public class DBHandler {
     }
     
     private static StringBuilder dbAPICallPost(String urlString, String body, String token) {
-        
+        StringBuilder content;
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            StringBuilder content;
             connection.setRequestProperty("Accept", "application/json");
             if (!"".equals(token)){
                 connection.setRequestProperty("Authorization", "Bearer "+token);
-                System.out.println("token hänger med.");
             }
                 
             JSONObject myJsonObj = new JSONObject(body);
@@ -91,14 +89,12 @@ public class DBHandler {
                 content.append(System.lineSeparator());
             }
             connection.disconnect();
-            System.out.println("check 2");
+            System.out.println(content);
             return content;
         } catch (Exception ex) {
-            System.out.println("Error in dbAPICallPost()");
-            ex.printStackTrace();
+            content = new StringBuilder();
+            return content.append(ex);
         }
-        return null;
-
     }
     
     private static StringBuilder dbAPICallGet(String urlString, String token) {
@@ -173,7 +169,6 @@ public class DBHandler {
      */
     public static String validateToken(String token) throws ConnectException{
         String body = "token="+token;
-        System.out.println("token"+token);
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/validateToken", body);
         if (content == null)
             return null;
@@ -192,7 +187,6 @@ public class DBHandler {
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/updateAccount", body);
         if (content == null)
             return null;
-        System.out.println(content.toString());
         return content.toString();
     }
 
@@ -203,25 +197,24 @@ public class DBHandler {
         return content.toString();
     }
     
-    public static void application(ApplicationDTO application, String Username) throws ConnectException{
+    public static String application(ApplicationDTO application, String Username) throws ConnectException{
         Person person = users.get(Username);
-        System.out.println("check 1: " + person.getToken());
         String body = "{"
                 + "'person_id': '" + person.getId() + "',"
                 + "'competence_id': '" + application.getCompetence() + "',"
                 + "'years_of_experience': '" + application.getExperience() + "'"
                 + "}";
-        
-        dbAPICallPost("http://localhost:8081/addProfile", body, person.getToken());
+        StringBuilder content = dbAPICallPost("http://localhost:8081/addProfile", body, person.getToken());
+        if (!content.toString().contains("OK"))
+            return content.toString();
         body = "{"
                 + "'person_id': '" + person.getId() + "',"
                 + "'from_date': '" + application.getStart() + "',"
                 + "'to_date': '" + application.getEnd() + "'"
                 + "}";
         
-        System.out.println("start: " +application.getStart()+ ", end: " + application.getEnd());
-        dbAPICallPost("http://localhost:8081/addAvailability", body, person.getToken());
-        
+        content = dbAPICallPost("http://localhost:8081/addAvailability", body, person.getToken());
+        return content.toString();
     }
     
     
@@ -235,7 +228,7 @@ public class DBHandler {
         }catch (Exception e){
         }
         for(int i = 0; i < (myJsonArray.length()/map.size()); i++){
-            competenceList.add(new Competence(myJsonArray.getJSONObject(i+j).getInt("id"), myJsonArray.getJSONObject(i+j).getString("name")));
+            competenceList.add(new Competence(myJsonArray.getJSONObject(i).getInt("id"), myJsonArray.getJSONObject(i+j).getString("name")));
         }
         
         return competenceList;
