@@ -22,14 +22,14 @@ public class ApplicationDTO {
     
     @NotNull
     @Min(0)
-    private final int experience;
+    private final double experience;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final String start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final String end;
     
-    public ApplicationDTO(int competence, int experience, String start, String end) {
+    public ApplicationDTO(int competence, double experience, String start, String end) {
         this.competence = competence;
         this.experience = experience;
         this.start = start;
@@ -43,7 +43,7 @@ public class ApplicationDTO {
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public int getExperience() {
+    public double getExperience() {
         return experience;
     }
     
