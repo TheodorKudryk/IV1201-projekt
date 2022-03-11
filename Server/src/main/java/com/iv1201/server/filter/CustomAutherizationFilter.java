@@ -24,11 +24,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- *
+ * A custom filter for checking authorization privileges for users.
  * @author leohj
  */
 public class CustomAutherizationFilter extends OncePerRequestFilter {
 
+    /**
+     * Handles the authorization filtering process
+     * @param request from which to extract parameters and perform the authorization
+     * @param response the response that may be written to
+     * @param filterChain the filter chain
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals("/login")) {
