@@ -65,8 +65,6 @@ public class UserUpdateController {
             return "userupdate";
         }
         try {
-            //UserDTO user = new UserDTO(username,password,"");
-            int a = 1/0;
             String serverMsg = DBHandler.updateUser(user, token);
             if(serverMsg == null)
                 return "redirect:error";
