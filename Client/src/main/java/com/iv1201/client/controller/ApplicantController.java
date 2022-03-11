@@ -31,11 +31,11 @@ public class ApplicantController {
      * @return the view used
      */
     @RequestMapping(value = "/application")
-    public String applicantion(@Valid ApplicationDTO applicationDTO, BindingResult bindingResult,
+    public String applicantion(@Valid ApplicationDTO applicationDTO, //BindingResult bindingResult,
             @RequestParam("username") String username){
-	if (bindingResult.hasErrors()) {
+	/*if (bindingResult.hasErrors()) {
             return "form";
-	}
+	}*/
         try {
             String serverMsg = DBHandler.sendApplication(applicationDTO, username);
             System.out.println("serverMsg: "+serverMsg);

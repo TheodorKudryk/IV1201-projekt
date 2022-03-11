@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.net.ConnectException;
+import javax.validation.Valid;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 /**
  *  This serves as an controller for all views related to the the updating a 
@@ -25,7 +28,7 @@ public class UserUpdateController {
      * @return 
      */
     @RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
-    public String checkToken(Model model, String token){
+    public String checkToken( @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model, String token){
         if (LoginController.isAuthenticated()) { //Checks if the user is already logged in
             return "redirect:startpage";
         }
@@ -43,20 +46,26 @@ public class UserUpdateController {
     /**
      * This is the controller for when a user gotten to the page and has sent 
      * the new user info that will be updated in the database
+     * @param user
+     * @param bindingResult
      * @param model used by Thymeleaf
      * @param request the request made to the view
      * @param token the token that connects the account to the user that 
-     * requested it 
-     * @param username the username that will be entered to the database
-     * @param password the password that will be entered to the database
+     * requested it
      * @return if the user has been updated send it back to login and if couldn't
      * sent it back to login with an error
      */
     @RequestMapping(value = "/userUpdate", method = RequestMethod.POST)
-    public String resetAccount(Model model, HttpServletRequest request,  @RequestParam("token") String token,
-            @RequestParam("username") String username, @RequestParam("password") String password) {
+    public String resetAccount(@ModelAttribute("user") @Valid UserDTO user, BindingResult bindingResult, Model model, HttpServletRequest request, 
+            @RequestParam("token") String token) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("token", token);
+            System.out.println("test");
+            return "userupdate";
+        }
         try {
-            UserDTO user = new UserDTO(username,password,"");
+            //UserDTO user = new UserDTO(username,password,"");
+            int a = 1/0;
             String serverMsg = DBHandler.updateUser(user, token);
             if(serverMsg == null)
                 return "redirect:error";

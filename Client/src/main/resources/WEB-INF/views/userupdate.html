@@ -8,12 +8,14 @@
             <input type="submit" value="back to login">
         </form>
         <h1><span th:text="#{txt.userUpdate}" /></h1>
-        <form method="POST" action="/userUpdate">
-            <span th:text="#{txt.username}" /> <input type="text" name="username" id="username" required><br>
-            <span th:text="#{txt.password}" /> <input type="text" name="password" id="password" required><br>
+        <form method="POST" th:object="${user}" action="/userUpdate">
+            <span th:text="#{txt.username}" /> <input type="text" th:field="*{username}"/>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td><br>
+            <span th:text="#{txt.password}" /> <input type="text" th:field="*{password}"/>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td><br>
             <input type="hidden" name="action" value="login">
-            <input type="submit" value="update">
             <input type="hidden" name="token" th:attr="value = ${token}"/>
+            <input type="submit" value="update">
         </form>
     </body>
 </html>
