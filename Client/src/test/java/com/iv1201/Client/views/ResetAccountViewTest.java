@@ -82,7 +82,7 @@ public class ResetAccountViewTest {
     @Test
     public void testUpdateBtnLinkSent() {
         WebElement emailField = driver.findElement(By.id("email"));
-        emailField.sendKeys("wolf_arsenio@finnsinte.se");
+        emailField.sendKeys("bauer_wynter3952@finnsinte.se");
         WebElement updateBtn = driver.findElement(By.id("updateBtn"));
         updateBtn.click();
         WebElement errorMsg = driver.findElement(By.className("error"));

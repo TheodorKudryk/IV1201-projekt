@@ -74,11 +74,22 @@ public class ApplicantViewTest {
      * Test of experience field, of view applicant.
      */
     @Test
-    public void testExperienceField() {
+    public void testExperienceFieldLetters() {
         WebElement experienceField = driver.findElement(By.id("experience"));
         experienceField.sendKeys("experience");
         String writtenExperience = experienceField.getAttribute("value");
-        Assert.assertEquals("experience", writtenExperience);
+        Assert.assertEquals("", writtenExperience);
+    }
+    
+    /**
+     * Test of experience field, of view applicant.
+     */
+    @Test
+    public void testExperienceField() {
+        WebElement experienceField = driver.findElement(By.id("experience"));
+        experienceField.sendKeys("2");
+        String writtenExperience = experienceField.getAttribute("value");
+        Assert.assertEquals("2", writtenExperience);
     }
     
     /**
@@ -121,5 +132,31 @@ public class ApplicantViewTest {
         timeField.sendKeys("2022-07-19");
         String chosenDate = timeField.getAttribute("value");
         Assert.assertEquals("2022-02-19", chosenDate);
+    }
+    
+    /**
+     * Test applying, of view applicant.
+     */
+    @Test
+    public void testApplyNegativeExperience() {
+        WebElement experienceField = driver.findElement(By.id("experience"));
+        experienceField.sendKeys("-2");
+        WebElement loginBtn = driver.findElement(By.id("applyBtn"));
+        loginBtn.click();
+        String writtenExperience = experienceField.getAttribute("value");
+        Assert.assertEquals("-2", writtenExperience);
+    }
+    
+    /**
+     * Test applying, of view applicant.
+     */
+    @Test
+    public void testApply() {
+        WebElement experienceField = driver.findElement(By.id("experience"));
+        experienceField.sendKeys("2");
+        WebElement loginBtn = driver.findElement(By.id("applyBtn"));
+        loginBtn.click();
+        String writtenExperience = experienceField.getAttribute("value");
+        Assert.assertEquals("", writtenExperience);
     }
 }
