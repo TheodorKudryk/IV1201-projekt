@@ -49,13 +49,16 @@ public class LoginController {
      * @return the view used 
      */
     @RequestMapping(value = "/startpage")
-    public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model, String error){
+    public String startpage(HttpServletRequest request, @RequestHeader("accept-language") String language,ModelMap model, String error, String invalid){
         if(error != null){
             model.addAttribute("unknownError",true);
         }
         if (request.isUserInRole("ROLE_recruiter")) {
             return "recruiter";
-        }   
+        }
+        if(invalid != null){
+            model.addAttribute("invalid", true);
+        }
         String[] langarray = language.split(",", 2);
         model.addAttribute("competences", DBHandler.loadCompetences(langarray[0]));
         model.addAttribute("username", request.getRemoteUser());

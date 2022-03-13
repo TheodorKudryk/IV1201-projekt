@@ -12,6 +12,7 @@
                         <td th:text="#{txt.welcome} "></td>
                         <td th:text="#{txt.apply}"></td>
                     </h1>
+                    <p th:if="${invalid}" class="error" th:text="#{txt.invalid}"></p>
                     <form method="POST" th:object="${ApplicationDTO}" th:action="@{/application}">
                         <span th:text="#{txt.expertise}" /> 
                             <select id="competence" name="competence">
