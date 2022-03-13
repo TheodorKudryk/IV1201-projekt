@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Adds competences of user to database
+ *
  * @author theok
  */
 @RestController 
@@ -21,11 +21,6 @@ public class Competence_profileController {
     @Autowired
     private Competence_profileService service;
     
-    /**
-     * Checks if the years of experience are possible and add them to the database
-     * @param competence_profile info about years of experience and what area
-     * @return message from API
-     */
     @PostMapping("/addProfile")
     public String addProfile(@Valid @RequestBody Competence_profile competence_profile){
         System.out.println("check"+competence_profile);

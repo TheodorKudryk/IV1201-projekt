@@ -60,9 +60,9 @@ public class LoginController {
             model.addAttribute("invalid", true);
         }
         String[] langarray = language.split(",", 2);
-        model.addAttribute("competences", DBHandler.loadCompetences(langarray[0]));
+        model.addAttribute("competences", DBHandler.loadCompetence(langarray[0]));
         model.addAttribute("username", request.getRemoteUser());
-        model.addAttribute("competence_profile", DBHandler.loadApplications(request.getRemoteUser()));
+        model.addAttribute("competence_profile", DBHandler.applications(request.getRemoteUser()));
         return "applicant";
     }
     

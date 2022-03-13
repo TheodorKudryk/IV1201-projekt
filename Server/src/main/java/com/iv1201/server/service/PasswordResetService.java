@@ -1,18 +1,25 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.iv1201.server.service;
 
 
 import com.iv1201.server.entity.Password_reset_token;
+import com.iv1201.server.entity.User;
 import com.iv1201.server.repository.PasswordResetTokenRepository;
+import java.util.Calendar;
 import org.springframework.transaction.annotation.Transactional;
-
+/**
+ *
+ * @author Zarcez
+ */
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 
 
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 @Service
+@Transactional
 public class PasswordResetService {
 
     @Autowired

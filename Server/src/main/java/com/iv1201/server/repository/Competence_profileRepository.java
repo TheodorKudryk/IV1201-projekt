@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
+/**
+ *
+ * @author theok
+ */
 public interface Competence_profileRepository extends JpaRepository<Competence_profile,Integer> {
     
     @Override

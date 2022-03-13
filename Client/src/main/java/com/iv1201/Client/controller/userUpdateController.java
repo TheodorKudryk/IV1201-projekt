@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.iv1201.client.controller;
 
 import com.iv1201.client.integration.DBHandler;
@@ -20,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Zarcez
  */
 @Controller
-public class UserUpdateController {
+public class userUpdateController {
 
     /**
      * This is the controller for when the user first gets the page 

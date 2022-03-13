@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.iv1201.server.controller;
 
 
@@ -48,7 +52,7 @@ public class UpdateInformationController {
                     token = UUID.randomUUID().toString();
                     service.createPasswordResetTokenForUser(userEmail, token);
                 }
-                //Lack of proper mailing, for now only out print
+                //mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, userEmail));
                 System.out.println("/userUpdate?token="+token);
                 return "ok";
             }
