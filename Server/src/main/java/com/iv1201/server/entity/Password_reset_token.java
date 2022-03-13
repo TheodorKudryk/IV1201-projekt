@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.iv1201.server.entity;
 
 import java.io.Serializable;
@@ -10,8 +13,10 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
+/**
+ *
+ * @author Zarcez
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +31,7 @@ public class Password_reset_token implements Serializable{
     private String token;
 
     private String email;
+    
 
     public Password_reset_token(String token, String email) {
         this.token = token;

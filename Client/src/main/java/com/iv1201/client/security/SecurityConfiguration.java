@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
                 .antMatchers("/startpage").hasAnyRole("recruiter","applicant")
-                .antMatchers("/login**","/userUpdate**","/resetAccount","/error").permitAll()
+                .antMatchers("/login**","/userUpdate**","/resetAccount").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin()

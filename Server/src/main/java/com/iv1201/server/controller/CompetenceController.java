@@ -17,7 +17,7 @@ public class CompetenceController {
     @Autowired
     private CompetenceService service;
     
-    /**
+     /**
      * Gets a list competences
      * @return list of competences
      */

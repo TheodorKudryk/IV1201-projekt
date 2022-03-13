@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <div th:replace="fragments :: myheader('Application')"></div>
+    </head>
+    <body>
+        <div th:text="#{txt.woopsie}"></div>
+        <form method="GET" th:action="@{/startpage}">
+            <input type="hidden">
+            <input type="submit" th:value="#{txt.returnToStartPage}">
+        </form>
+    </body>
+</html>

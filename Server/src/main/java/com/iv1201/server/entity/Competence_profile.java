@@ -12,6 +12,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ * @author theok
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +26,10 @@ public class Competence_profile implements Serializable {
     @Column(name="competence_profile_id")
     @GeneratedValue(strategy= GenerationType.IDENTITY, generator="seq-gen")
     private int id;
+    
    
     private int person_id;
+    
     
     private int competence_id;
     

@@ -35,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             // You can get the password here
             String password = authentication.getCredentials().toString();
             Person person = DBHandler.validateLogin(username, password);
-            // Checks if there vas a resonse from the server and creates and auth
+            // Checks if there vas a response from the server and creates and auth
             // with the values
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_"+person.getRole()));
@@ -52,7 +52,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationServiceException("Unknown error");
         }
     }
-
+    /**
+     * Part of Spring Security
+     * @param authentication part of Spring security
+     * @return a boolean wether authentication equals UsernamePasswordAuthenticationToken
+     */
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);

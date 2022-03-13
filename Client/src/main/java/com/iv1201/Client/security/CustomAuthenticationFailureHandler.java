@@ -23,6 +23,8 @@ public class CustomAuthenticationFailureHandler
      * @param request info about the request
      * @param exception info about what kind of exception was thrown
      * @param response used for sending a redirect 
+     * @throws java.io.IOException 
+     * @throws javax.servlet.ServletException 
      */
     @Override
     public void onAuthenticationFailure(

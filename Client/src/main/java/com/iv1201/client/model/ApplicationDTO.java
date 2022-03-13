@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
- *Class for when an applicant makes an application with their competence, their
+ * Class for when an applicant makes an application with their competence, their
  * experience and when they are available
  * @author theok
  */

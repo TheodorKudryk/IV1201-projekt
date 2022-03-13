@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ *
+ * @author theok
+ */
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
 public interface CompetenceRepository extends JpaRepository<Competence,Integer> {

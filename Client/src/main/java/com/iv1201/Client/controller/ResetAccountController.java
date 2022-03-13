@@ -1,5 +1,5 @@
 
-package com.iv1201.Client.controller;
+package com.iv1201.client.controller;
 
 import com.iv1201.client.controller.LoginController;
 import com.iv1201.client.integration.DBHandler;
@@ -33,12 +33,11 @@ public class ResetAccountController {
     /**
      * Post method used for getting a token for which the user can reset the account
      * @param model Used by Thymeleaf
-     * @param request 
      * @param userEmail The user resets based on email
      * @return the view with a message depending on how it went 
      */
     @RequestMapping(value = "/resetAccount", method = RequestMethod.POST)
-    public String resetPassword(Model model, HttpServletRequest request, @RequestParam("email") String userEmail) {
+    public String resetPassword(Model model, @RequestParam("email") String userEmail) {
         String serverMsg = "";
         try {
             serverMsg = DBHandler.validateEmail(userEmail);

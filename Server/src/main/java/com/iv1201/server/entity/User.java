@@ -16,6 +16,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+/**
+ *
+ * @author theok
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

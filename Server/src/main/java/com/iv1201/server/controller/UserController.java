@@ -29,4 +29,5 @@ public class UserController {
     public User findUserByUsername(@Valid @PathVariable String uname) {
         return service.loadUser(uname);
     }
+    
 }
