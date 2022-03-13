@@ -18,26 +18,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ApplicantController {
     
     @RequestMapping(value = "/applicant")
-    public String Applicant(){
+    public String applicant(){
         return "redirect:/startpage";
     }
     
     /**
-     * The controller for where the application is sent to be checked before 
-     * it's sent to the database handler
-     * @param applicationDTO the class with all the info for the application
+     * The controller for where the sendApplication is sent to be checked before 
+ it's sent to the database handler
+     * @param applicationDTO the class with all the info for the sendApplication
      * @param bindingResult used for checking the values that was sent 
      * @param username the username of the current logged in applicant
      * @return the view used
      */
     @RequestMapping(value = "/application")
-    public String Applicantion(@Valid ApplicationDTO applicationDTO, BindingResult bindingResult,
+    public String applicantion(@Valid ApplicationDTO applicationDTO, BindingResult bindingResult,
             @RequestParam("username") String username){
 	if (bindingResult.hasErrors()) { 
             return "redirect:/startpage?invalid";
 	}
         try {
-            String serverMsg = DBHandler.application(applicationDTO, username);
+            String serverMsg = DBHandler.sendApplication(applicationDTO, username);
             System.out.println("serverMsg: "+serverMsg);
 
         }   catch (ConnectException ex) {

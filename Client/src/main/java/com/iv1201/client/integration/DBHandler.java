@@ -16,16 +16,23 @@ import java.util.HashMap;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject; 
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
- *
+ * Handles call to the database API
  * @author leohj
  */
 public class DBHandler {
-    private static HashMap<String, Integer> map = new HashMap<String, Integer>(){{put("sv", 1); put("en", 0);}};
-    private static HashMap<String, Person> users = new HashMap<String, Person>(){};
+    private static final HashMap<String, Integer> map = new HashMap<String, Integer>(){{put("sv", 1); put("en", 0);}};
+    private static final HashMap<String, Person> users = new HashMap<String, Person>(){};
+    private static final BCryptPasswordEncoder bcryptPasswordEndoder = new BCryptPasswordEncoder();
     
-    
+    /**
+     * 
+     * @param urlString
+     * @param body
+     * @return
+     * @throws ConnectException 
+     */
     private static StringBuilder dbAPICallPostAuth(String urlString, String body) throws ConnectException {
         try {
             URL url = new URL(urlString);
@@ -89,7 +96,6 @@ public class DBHandler {
                 content.append(System.lineSeparator());
             }
             connection.disconnect();
-            System.out.println(content);
             return content;
         } catch (Exception ex) {
             content = new StringBuilder();
@@ -98,6 +104,7 @@ public class DBHandler {
     }
     
     private static StringBuilder dbAPICallGet(String urlString, String token) {
+        StringBuilder content;
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -105,7 +112,6 @@ public class DBHandler {
             connection.setRequestProperty("Content-Type", "application/json");
             if (token != "")
                 connection.setRequestProperty("Authorization", "Bearer "+token);
-            StringBuilder content;
             
             BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
@@ -118,10 +124,9 @@ public class DBHandler {
             connection.disconnect();
             return content;
         } catch (Exception ex) {
-            System.out.println("Error in dbAPICall()");
-            ex.printStackTrace();
+            content = new StringBuilder();
+            return content.append(ex);
         }
-        return null;
     }
     
     /**
@@ -183,7 +188,8 @@ public class DBHandler {
      * @throws ConnectException if there is no connection to the database
      */
     public static String updateUser(UserDTO user, String token) throws ConnectException{
-        String body = "username="+user.getUsername()+"&password="+user.getPassword()+"&token="+token;
+        String encodedPassword = bcryptPasswordEndoder.encode(user.getPassword());
+        String body = "username="+user.getUsername()+"&password="+encodedPassword+"&token="+token;
         StringBuilder content = dbAPICallPostAuth("http://localhost:8081/resetAccount/updateAccount", body);
         if (content == null)
             return null;
@@ -191,20 +197,20 @@ public class DBHandler {
     }
 
     
-    public static String applications(String Username){
+    public static String loadApplications(String Username){
         Person person = users.get(Username);
         StringBuilder content = dbAPICallGet("http://localhost:8081/applications/" + person.getId(), person.getToken());
         return content.toString();
     }
     
     /**
-     * Sends an application to the database handler 
-     * @param application contains all the info about the application
+     * Sends an sendApplication to the database API 
+     * @param application contains all the info about the sendApplication
      * @param Username the username of the logged in user
      * @return message from the server
      * @throws ConnectException if there was no connection to the database handler
      */
-    public static String application(ApplicationDTO application, String Username) throws ConnectException{
+    public static String sendApplication(ApplicationDTO application, String Username) throws ConnectException{
         Person person = users.get(Username);
         String body = "{"
                 + "'person_id': '" + person.getId() + "',"
@@ -230,7 +236,7 @@ public class DBHandler {
      * @param language
      * @return 
      */
-    public static List<Competence> loadCompetence(String language) {
+    public static List<Competence> loadCompetences(String language) {
         List<Competence> competenceList = new ArrayList<Competence>();
         StringBuilder content = dbAPICallGet("http://localhost:8081/competences", "");
         JSONArray myJsonArray = new JSONArray(content.toString());

@@ -9,10 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-/**
- *
- * @author theok
- */
 public interface RoleRepository extends JpaRepository<Role,Integer> {
     Role findByName(String name);
 }
