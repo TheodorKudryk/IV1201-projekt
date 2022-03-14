@@ -5,7 +5,7 @@
     </head>
     <body>
         <form method="GET" action="/login">
-            <input type="submit" value="back to login" id="backToLoginBtn">
+            <input type="submit" th:value="#{txt.backToLogin}" id="backToLoginBtn">
         </form>
         <p th:if="${ok}" class="error" th:text="#{resetAct.ok}"></p>
         <p th:if="${reset}" class="error" th:text="#{resetAct.reset}"></p>
@@ -15,7 +15,7 @@
         <form method="POST" action="/resetAccount">
             <span th:text="#{txt.email}" /> <input type="text" name="email" id="email" required><br>
             <input type="hidden" name="action" value="login" >
-            <input type="submit" value="update" id="updateBtn">
+            <input type="submit" th:value="#{txt.send}"  id="updateBtn">
         </form>
     </body>
 </html>

@@ -27,7 +27,7 @@
                             value="2022-07-01"
                             min="2022-06-01" max="2022-08-31"><br>
                         <input type="hidden" name="username" th:attr="value=${username}">
-                        <input type="submit" th:value="#{txt.apply}" id="applyBtn">
+                        <input type="submit" th:value="#{txt.apply}">
                     </form>
                 <span th:unless="${competence_profile.length()<3}">
                     <h1>
