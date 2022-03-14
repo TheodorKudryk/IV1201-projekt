@@ -156,6 +156,7 @@ public class ApplicantViewTest {
         experienceField.sendKeys("2");
         WebElement loginBtn = driver.findElement(By.id("applyBtn"));
         loginBtn.click();
+        experienceField = driver.findElement(By.id("experience"));
         String writtenExperience = experienceField.getAttribute("value");
         Assert.assertEquals("", writtenExperience);
     }

@@ -62,22 +62,6 @@ public class UserUpdateViewTest {
         Assert.assertEquals("Reset", pageTitle);
     }
     
-    /**
-     * Test of update button, of view user update. Correct input applicant.
-     */
-    /*
-    @Test
-    public void testUpdateBtn() {
-        WebElement usernameField = driver.findElement(By.id("username"));
-        usernameField.sendKeys("username");
-        WebElement passwordField = driver.findElement(By.id("password"));
-        passwordField.sendKeys("password");
-        WebElement updateBtn = driver.findElement(By.id("updateBtn"));
-        updateBtn.click();
-        String pageTitle = driver.getTitle();
-        Assert.assertEquals("Login", pageTitle);
-    }
-    */
     
     /**
      * Test of username field, of view user update.
